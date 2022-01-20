@@ -7,7 +7,7 @@ import 'package:evento/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../home.dart';
+import '../screen_main/holder/evento_pageholder.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class SplashScreen extends StatelessWidget {
           )
         ],
       ),
-      nextScreen: EventoController.eventoController.isAppLaunched??false ? const EventoHome() : const OnBoarding(),
+      nextScreen: EventoController.eventoController.isAppLaunched??false ? const EventoHolder() : const OnBoarding(),
       splashTransition: SplashTransition.fadeTransition,
     );
   }

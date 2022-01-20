@@ -59,7 +59,7 @@ class RegisterSectionOne extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 8.h,
                             ),
                             DataTextFields(
                               minLength: 9,
@@ -81,7 +81,7 @@ class RegisterSectionOne extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 8.h,
                             ),
                             DataTextFields(
                               minLength: 9,
@@ -104,7 +104,7 @@ class RegisterSectionOne extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 8.h,
                             ),
                             DataTextFields(
                               minLength: 9,
@@ -116,7 +116,7 @@ class RegisterSectionOne extends StatelessWidget {
                               obscureText: false,
                             ),
                             SizedBox(
-                              height: 17.h,
+                              height: 35.h,
                             ),
                             GestureDetector(
                                 onTap: () {},

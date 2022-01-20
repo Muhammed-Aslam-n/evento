@@ -1,4 +1,4 @@
-import 'package:evento/screen/home.dart';
+import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
 import 'package:evento/screen/profile_setup/profile_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:evento/constants/colors.dart';
@@ -60,7 +60,7 @@ class RegisterSectionTwo extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 8.h,
                             ),
                             DataTextFields(
                               minLength: 9,
@@ -82,7 +82,7 @@ class RegisterSectionTwo extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 8.h,
                             ),
                             DataTextFields(
                               minLength: 9,
@@ -105,7 +105,7 @@ class RegisterSectionTwo extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 8.h,
                             ),
                             DataTextFields(
                               minLength: 9,
@@ -117,35 +117,10 @@ class RegisterSectionTwo extends StatelessWidget {
                               obscureText: false,
                             ),
                             SizedBox(
-                              height: 17.h,
+                              height: 25.h,
                             ),
                             Center(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Get.to(()=>const SetupProfile());
-
-                                },
-                                style: ButtonStyle(
-                                  fixedSize: MaterialStateProperty.all<Size>(
-                                      Size(137.w, 48.h)),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          whiteColor),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(24),
-                                      side: const BorderSide(color: Colors.red),
-                                    ),
-                                  ),
-                                ),
-                                child: CommonText(
-                                  text: "Join Us",
-                                  size: 20.sp,
-                                  weight: FontWeight.w500,
-                                  color: secondaryColor,
-                                ),
-                              ),
+                              child: commonButton(text: "Join Us",textSize: 14.0,width: 150.0.w,onPressed: ()=>Get.to(()=>const SetupProfile()))
                             ),
                           ],
                         ),
