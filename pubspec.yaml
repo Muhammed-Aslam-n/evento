@@ -39,6 +39,9 @@ dependencies:
   persistent_bottom_nav_bar: any
   flutter_chat_ui: any
   url_launcher: any
+  shared_preferences: any
+  animated_splash_screen: any
+  wc_form_validators: any
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,8 +1,12 @@
+import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/splashscreen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.put(EventoController());
   runApp(const MyApp());
 }
 
@@ -13,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      builder: () => MaterialApp(
+      builder: () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
