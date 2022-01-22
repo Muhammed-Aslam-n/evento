@@ -1,8 +1,12 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:get/get.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSize {
   const CommonAppBar({Key? key}) : super(key: key);
@@ -225,9 +229,15 @@ class CommonProfileDisplayWidget extends StatelessWidget {
 }
 
 class CommonAppointmentWidget extends StatelessWidget {
-  final String? url,dayText, title, subtitle;
+  final String? url, dayText, title, subtitle;
   final Color? color;
-  final double? containerHeight, containerWidth, imageHeight, imageWidth, size,tileGape,dayCardTextSize;
+  final double? containerHeight,
+      containerWidth,
+      imageHeight,
+      imageWidth,
+      size,
+      tileGape,
+      dayCardTextSize;
   final FontWeight? weight;
   final bool isTrailing;
 
@@ -243,7 +253,10 @@ class CommonAppointmentWidget extends StatelessWidget {
       this.containerHeight,
       this.containerWidth,
       this.imageHeight,
-      this.imageWidth,this.dayText,this.tileGape,this.dayCardTextSize})
+      this.imageWidth,
+      this.dayText,
+      this.tileGape,
+      this.dayCardTextSize})
       : super(key: key);
 
   @override
@@ -262,13 +275,17 @@ class CommonAppointmentWidget extends StatelessWidget {
                 height: 34.h,
                 width: 84.w,
                 decoration: const BoxDecoration(
-                  color: secondaryColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: dayContainerRadius,
-                    bottomRight: dayContainerRadius
-                  )
-                ),
-                child: Center(child: CommonText(text: dayText??'Today',color: whiteColor,size: dayCardTextSize??14.5,weight: FontWeight.w400,)),
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.only(
+                        topLeft: dayContainerRadius,
+                        bottomRight: dayContainerRadius)),
+                child: Center(
+                    child: CommonText(
+                  text: dayText ?? 'Today',
+                  color: whiteColor,
+                  size: dayCardTextSize ?? 14.5,
+                  weight: FontWeight.w400,
+                )),
               ),
             ),
             // SizedBox(
@@ -324,92 +341,492 @@ class CommonAppointmentWidget extends StatelessWidget {
 }
 
 class AppointmentShortCardWidget extends StatelessWidget {
-  final String? url,dayText, title;
+  final String? url, dayText, title;
   final Color? color;
-  final double? containerHeight, containerWidth, imageHeight, imageWidth, size,contentWidth,dayCardHeight,tileGape,dayCardTextSize;
+  final double? containerHeight,
+      containerWidth,
+      imageHeight,
+      imageWidth,
+      size,
+      contentWidth,
+      dayCardHeight,
+      tileGape,
+      dayCardTextSize;
   final FontWeight? weight;
 
   const AppointmentShortCardWidget(
       {Key? key,
-        this.url,
-        this.color,
-        this.title,
-        this.size,
-        this.weight,
-        this.containerHeight,
-        this.containerWidth,
-        this.imageHeight,
-        this.imageWidth, this.contentWidth, this.dayText,this.tileGape, this.dayCardHeight, this.dayCardTextSize})
+      this.url,
+      this.color,
+      this.title,
+      this.size,
+      this.weight,
+      this.containerHeight,
+      this.containerWidth,
+      this.imageHeight,
+      this.imageWidth,
+      this.contentWidth,
+      this.dayText,
+      this.tileGape,
+      this.dayCardHeight,
+      this.dayCardTextSize})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(
-    height: containerHeight,
-    width: containerWidth,
-    decoration: BoxDecoration(
-      color: primaryBgColor,
-      borderRadius: BorderRadius.circular(11),
-    ),
-    child: Column(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            height: dayCardHeight??34.h,
-            width: 84.w,
-            decoration: const BoxDecoration(
+        height: containerHeight,
+        width: containerWidth,
+        decoration: BoxDecoration(
+          color: primaryBgColor,
+          borderRadius: BorderRadius.circular(11),
+        ),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: dayCardHeight ?? 34.h,
+                width: 84.w,
+                decoration: const BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.only(
+                        topLeft: dayContainerRadius,
+                        bottomRight: dayContainerRadius)),
+                child: Center(
+                    child: CommonText(
+                  text: dayText ?? 'Today',
+                  color: whiteColor,
+                  size: dayCardTextSize ?? 14.5,
+                  weight: FontWeight.w400,
+                )),
+              ),
+            ),
+            SizedBox(
+              height: contentWidth ?? 10.h,
+            ),
+            Expanded(
+              child: ListTile(
+                horizontalTitleGap: tileGape ?? 16,
+                trailing: SizedBox(
+                  height: imageHeight,
+                  width: imageWidth,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.network(
+                      url ?? sampleProfileImageUrl,
+                      // height: imageHeight,
+                      // width: imageWidth,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: Image.asset(
+                            "assets/gifs/loadingGiphy.gif",
+                            height: imageHeight ?? 40.h,
+                            width: imageWidth ?? 40.w,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                title: CommonText(
+                  text: title ?? '',
+                  color: primaryTextColor,
+                  size: size ?? 14.0,
+                  weight: weight ?? FontWeight.w500,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+}
+
+class OrderDetailsCard extends StatelessWidget {
+  final String? title;
+  final List<Widget>? list;
+  final bool isIcon;
+  final double? titleSize;
+  final IconData? icon;
+  final void Function(BuildContext context)? onTap;
+
+  const OrderDetailsCard(
+      {Key? key,
+      this.title,
+      this.isIcon = false,
+      this.titleSize = 18,
+      this.icon,
+      this.onTap,
+      this.list})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 303.w,
+      decoration: BoxDecoration(
+        color: primaryBgColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              height: 36.h,
+              width: 112.w,
+              decoration: const BoxDecoration(
                 color: secondaryColor,
                 borderRadius: BorderRadius.only(
-                    topLeft: dayContainerRadius,
-                    bottomRight: dayContainerRadius
-                )
+                    topLeft: orderContainerRadius,
+                    bottomRight: orderContainerRadius),
+              ),
+              child: Center(
+                  child: CommonText(
+                text: title,
+                size: titleSize ?? 18,
+                color: whiteColor,
+              )),
             ),
-            child: Center(child: CommonText(text: dayText??'Today',color: whiteColor,size: dayCardTextSize??14.5,weight: FontWeight.w400,)),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: list!.map((e) => e).toList(),
+              ),
+              isIcon
+                  ? GestureDetector(
+                      onTap: () => onTap!(context),
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 20.h),
+                        height: 48.h,
+                        width: 48.w,
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: Colors.grey.shade400, width: 0.4),
+                        ),
+                        child: Icon(
+                          icon,
+                          color: const Color(0xFF58BC8A),
+                          size: 27,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HoveringUtilityWidget extends StatelessWidget {
+  final double? height, width;
+  final IconData? icon;
+  final Color? borderColor, iconColor, containerColor;
+  final double? iconSize;
+  final bool isShadow;
+  final Future Function(BuildContext context)? onPressed;
+
+  const HoveringUtilityWidget(
+      {Key? key,
+      this.height,
+      this.width,
+      this.icon,
+      this.borderColor,
+      this.iconColor,
+      this.containerColor,
+      this.iconSize,
+      this.isShadow = false,
+      this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height ?? 51.h,
+      width: width ?? 51.w,
+      decoration: BoxDecoration(
+        color: containerColor ?? whiteColor,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: isShadow ? Colors.grey.shade400 : Colors.transparent,
+            offset: const Offset(
+              1.2,
+              0.0,
+            ),
+            blurRadius: 2.0,
+            spreadRadius: 1.0,
+          ),
+        ],
+        border:
+            Border.all(color: borderColor ?? primaryTextColor, width: 0.3.w),
+      ),
+      child: Center(
+        child: IconButton(
+          padding: const EdgeInsets.all(0),
+          onPressed: () async => onPressed!(context),
+          icon: Icon(
+            icon,
+            color: iconColor ?? primaryColor,
+            size: iconSize,
           ),
         ),
-        SizedBox(
-          height: contentWidth??10.h,
-        ),
-        Expanded(
-          child: ListTile(
-            horizontalTitleGap: tileGape??16,
-            trailing: SizedBox(
-              height: imageHeight,
-              width: imageWidth,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Image.network(
-                  url ?? sampleProfileImageUrl,
-                  // height: imageHeight,
-                  // width: imageWidth,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }
-                    return Center(
-                      child: Image.asset(
-                        "assets/gifs/loadingGiphy.gif",
-                        height: imageHeight ?? 40.h,
-                        width: imageWidth ?? 40.w,
-                      ),
-                    );
-                  },
+      ),
+    );
+  }
+}
+
+class FloatingAButton extends StatelessWidget {
+  final void Function(BuildContext context)? onPressed;
+  final IconData? icon;
+  final double? iconSize, elevation;
+  final Color? fabBackground, iconColor;
+  final String? toolTip;
+
+  const FloatingAButton(
+      {Key? key,
+      this.onPressed,
+      this.icon,
+      this.iconSize,
+      this.elevation,
+      this.fabBackground,
+      this.iconColor,
+      this.toolTip})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () => onPressed!(context),
+      child: Icon(
+        icon,
+        size: iconSize,
+        color: iconColor,
+      ),
+      backgroundColor: fabBackground,
+      tooltip: toolTip,
+      splashColor: Colors.transparent,
+      elevation: elevation ?? 0,
+    );
+  }
+}
+
+commonSnackBar(
+    {String? title, String? message, Color? color, Color? bgColor}) async {
+  Get.snackbar(
+    title ?? '',
+    message ?? '',
+    margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+    snackPosition: SnackPosition.BOTTOM,
+    colorText: color ?? const Color(0xFF58BC8A),
+    backgroundColor: bgColor ?? whiteColor,
+  );
+}
+
+class ProfileDetailCardWidget extends StatelessWidget {
+  final String? headText;
+  final double? headSize;
+  final List<Widget>? widgetItems;
+  final void Function(BuildContext context)? onPressed;
+
+  const ProfileDetailCardWidget(
+      {Key? key,
+      this.headText,
+      this.headSize,
+      this.onPressed,
+      this.widgetItems})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: primaryBgColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 10.h,
+            ),
+            CommonText(
+              text: headText ?? '',
+              color: secondaryColor,
+              size: headSize ?? 17,
+              weight: FontWeight.w500,
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: widgetItems!.map((widgets) => widgets).toList(),
+              ),
+            ),
+            SizedBox(
+              height: 0.h,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () => onPressed!(context),
+                child: const CommonText(
+                  text: "Edit",
+                  color: primaryTextColor,
                 ),
               ),
             ),
-            title: CommonText(
-              text: title ?? '',
-              color: primaryTextColor,
-              size: size ?? 14.0,
-              weight: weight ?? FontWeight.w500,
-            ),
-          ),
-        )
-      ],
-    ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+buildRatingStars(rating) {
+  return RatingBar.builder(
+    initialRating: rating,
+    itemSize: 25,
+    itemCount: 5,
+    allowHalfRating: true,
+    itemBuilder: (context, index) {
+      return const Icon(
+        Icons.star,
+        color: Colors.amber,
+      );
+    },
+    onRatingUpdate: (rating) {
+      debugPrint(rating.toString());
+    },
   );
 }
+
+
+class BuildReviewWidget extends StatelessWidget {
+  final String? userText,contentText,url,rating;
+  const BuildReviewWidget({Key? key, this.userText, this.contentText, this.rating, this.url}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: primaryBgColor
+      ),
+      child: Column(
+        children: [
+          ListTile(
+            leading: CommonProfileDisplayWidget(url: url,height: 65,width: 52,color: Colors.transparent,),
+            title: CommonText(text: userText??'',size: 12,),
+            subtitle: CommonText(text: rating,color: primaryTextColor,size: 11,),
+          ),
+          SizedBox(height: 10.h,),
+          CommonText(text: contentText,size: 11,)
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+class DataInputField extends StatelessWidget {
+  final String? labelText;
+  final String? hintText;
+  final int? minLength, maxLength;
+  final double? hintSize,sbHeight;
+  final bool obscureText;
+  final IconData? prefixIcon;
+  final TextEditingController? controller;
+  final TextInputType? textInputType;
+  const DataInputField({Key? key, this.labelText, this.hintText, this.minLength, this.maxLength, this.hintSize, this.obscureText=false, this.controller, this.textInputType, this.prefixIcon, this.sbHeight}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: sbHeight??80.h,
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        controller: controller,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        obscureText: obscureText,
+        keyboardType: textInputType ?? TextInputType.name,
+        enableSuggestions: true,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+            focusedBorder: bssBorderStyle,
+            enabledBorder: bssBorderStyle,
+          focusedErrorBorder: bssBorderStyle,
+          errorBorder: bssBorderStyle,
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          hintText: hintText,
+          prefixIcon: Icon(prefixIcon,color: primaryTextColor,),
+          hintStyle: TextStyle(fontSize: hintSize ?? 12),
+          filled: true,
+          fillColor: Colors.white70,
+          focusColor: primaryTextColor,
+          prefixIconColor: primaryTextColor
+        ),
+        validator: ValidationBuilder().minLength(minLength??3).maxLength(maxLength??150).build(),
+      ),
+    );
+  }
+}
+
+
+
+class ShowSimpleDialogue extends StatelessWidget {
+  final String? title,mdFileName;
+  const ShowSimpleDialogue({Key? key, this.title, this.mdFileName}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: const RoundedRectangleBorder(),
+      child: Column(
+        children: [
+          SizedBox(height: 20.h,),
+          CommonText(text: title,size: 16.3,color: primaryTextColor,),
+          Expanded(child: FutureBuilder(
+            future: Future.delayed(const Duration(milliseconds: 150)).then((value) => rootBundle.loadString('assets/policies/privacy_policy.md')),
+            builder: (context,snapShot){
+              if(snapShot.hasData){
+                return Markdown(
+                  data: snapShot.data.toString(),
+                );
+              }else{
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),),
+          TextButton(onPressed: (){
+            Get.back();
+          }, child: const Text("Close"))
+        ],
+      ),
+    );
+  }
+}
+
 
 

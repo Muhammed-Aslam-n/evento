@@ -46,6 +46,11 @@ dependencies:
   form_validator: any
   flutter_otp_text_field: any
   curved_navigation_bar: any
+  syncfusion_flutter_datepicker: any
+  flutter_rating_bar: any
+  image_cropper: any
+  backdrop: any
+  flutter_markdown: any
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -82,6 +87,8 @@ flutter:
      - assets/images/showCaseImage/
      - assets/images/userImage/
      - assets/gifs/
+     - assets/images/platform/
+     - assets/policies/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

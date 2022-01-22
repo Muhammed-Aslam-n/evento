@@ -1,3 +1,4 @@
+import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/splashscreen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primaryColor: primaryColor
         ),
         home: const SplashScreen(),
       ),
