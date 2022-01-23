@@ -7,7 +7,6 @@ import 'package:evento/screen/screen_main/home/home_pages/evento_home.dart';
 import 'package:evento/screen/screen_main/profile/evento_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,7 +23,7 @@ class EventoController extends GetxController {
   }
 
   //--------------------------------------------------------------------------------
-  // Section to check whether the user launching this Application for the first time ot not
+  // Section to check whether the user launching this Application for the first time or not
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences prefs;
@@ -165,6 +164,23 @@ class EventoController extends GetxController {
   // Vendor Password Updating
   TextEditingController newPasswordController = TextEditingController().obs();
 
+
+
+  // Feedback Section
+
+  TextEditingController feedbackController = TextEditingController().obs();
+
+  clearFeedbackController(){
+    feedbackController.clear();
+  }
+
+
+
+
+
+
+
+
   commonSnackBar(title, message) {
     Get.snackbar(
       title,
@@ -177,6 +193,14 @@ class EventoController extends GetxController {
       snackPosition: SnackPosition.BOTTOM,
     );
   }
+
+
+
+  clearLoginControllers(){
+    emailEditingController.clear();
+    passwordEditingController.clear();
+  }
+
 
   clearProfileControllers() {
     nameEditingController.clear();

@@ -1,6 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:evento/constants/colors.dart';
-import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/onBoarding/onboarding.dart';
 import 'package:evento/widgets/widgets.dart';

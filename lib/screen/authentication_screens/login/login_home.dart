@@ -2,8 +2,8 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
-import 'package:evento/screen/forgot_password/forgot_password_section1.dart';
-import 'package:evento/screen/register/register_section_one.dart';
+import 'package:evento/screen/authentication_screens/forgot_password/forgot_password_section1.dart';
+import 'package:evento/screen/authentication_screens/register/register_section_one.dart';
 import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
 import 'package:evento/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -25,16 +25,14 @@ class LoginHome extends StatelessWidget {
         ),
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 36.h,
-                ),
-                Image.asset("assets/images/loginImages/loginBgVendor.png"),
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 36.h,
+              ),
+              FittedBox(child: Image.asset("assets/images/loginImages/loginBgVendor.png",)),
+              Expanded(
+                child: Container(
                   decoration: const BoxDecoration(
                       color: whiteColor, borderRadius: loginBorderRadius),
                   child: Padding(
@@ -65,15 +63,11 @@ class LoginHome extends StatelessWidget {
                                   size: 16.sp,
                                   color: primaryColor,
                                 ),
-                                SizedBox(
-                                  height: 25.h,
-                                ),
                                 DataTextFields(
                                   minLength: 9,
                                   controller: EventoController
                                       .eventoController.emailEditingController,
                                   textInputType: TextInputType.emailAddress,
-                                  // errorText: "Email is Required",
                                   hintText: "Your email id",
                                 ),
                                 SizedBox(
@@ -83,9 +77,6 @@ class LoginHome extends StatelessWidget {
                                   text: "Password",
                                   size: 16.sp,
                                   color: primaryColor,
-                                ),
-                                SizedBox(
-                                  height: 25.h,
                                 ),
                                 DataTextFields(
                                   minLength: 9,
@@ -116,9 +107,7 @@ class LoginHome extends StatelessWidget {
                                 Center(
                                   child: commonButton(text: "Login",textSize: 14.0,width: 150.0.w,onPressed: ()=>Get.to(()=>const EventoHolder()))
                                 ),
-                                SizedBox(
-                                  height: 35.h,
-                                ),
+                                SizedBox(height: 20.0.h,),
                                 Wrap(
                                   children: [
                                     CommonText(
@@ -153,8 +142,8 @@ class LoginHome extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

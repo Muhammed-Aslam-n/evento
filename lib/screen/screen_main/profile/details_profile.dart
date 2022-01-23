@@ -101,27 +101,29 @@ class DetailsProfile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(7.0),
               child: GestureDetector(
-                  onTap: () {
-                    showEnlargedImage(index);
+                onTap: () {
+                  showEnlargedImage(index);
+                },
+                child: GetBuilder<EventoController>(
+                  id: 'showCaseSection',
+                  builder: (controller) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: controller.showCaseImages[index].runtimeType
+                                  .toString() ==
+                              'String'
+                          ? Image.asset(
+                              controller.showCaseImages[index],
+                              fit: BoxFit.fill,
+                            )
+                          : Image.file(
+                              controller.showCaseImages[index],
+                              fit: BoxFit.fill,
+                            ),
+                    );
                   },
-                  child: GetBuilder<EventoController>(
-                      id: 'showCaseSection',
-                      builder: (controller) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: controller.showCaseImages[index].runtimeType
-                                      .toString() ==
-                                  'String'
-                              ? Image.asset(
-                                  controller.showCaseImages[index],
-                                  fit: BoxFit.fill,
-                                )
-                              : Image.file(
-                                  controller.showCaseImages[index],
-                                  fit: BoxFit.fill,
-                                ),
-                        );
-                      })),
+                ),
+              ),
             ),
             Positioned(
               top: 10,
@@ -148,7 +150,7 @@ class DetailsProfile extends StatelessWidget {
   showImagePickingPlatforms({index}) {
     return Get.defaultDialog(
       title: "Pick image from...",
-      contentPadding: const EdgeInsets.all(15),
+      contentPadding: const EdgeInsets.all(65),
       titleStyle: const TextStyle(color: primaryTextColor),
       barrierDismissible: true,
       titlePadding: const EdgeInsets.all(6),

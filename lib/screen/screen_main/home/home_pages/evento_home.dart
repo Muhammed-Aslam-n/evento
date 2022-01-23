@@ -2,6 +2,7 @@ import 'package:backdrop/backdrop.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/screen/feedback/evento_feedback.dart';
 import 'package:evento/screen/screen_main/home/order/order_details_page.dart';
 import 'package:evento/screen/screen_main/profile/evento_profile.dart';
 import 'package:evento/widgets/widgets.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/linearicons_free_icons.dart';
 import 'package:get/get.dart';
 
-import 'edit_available_slots.dart';
+import '../../operations/edit_available_slots.dart';
 
 class EventoHome extends StatelessWidget {
   const EventoHome({Key? key}) : super(key: key);
@@ -30,7 +31,9 @@ class EventoHome extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(()=>const EventoFeedback());
+                },
                 child: const CommonText(
                   text: "Feedback",
                   color: whiteColor,
@@ -63,9 +66,15 @@ class EventoHome extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  showDialog(context: context,builder: (context){
-                    return const ShowSimpleDialogue(title: "Terms and Conditions",mdFileName: 'terms_conditions.md',);
-                  });
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const ShowSimpleDialogue(
+                        title: "Terms and Conditions",
+                        mdFileName: 'terms_conditions.md',
+                      );
+                    },
+                  );
                 },
                 child: const CommonText(
                   text: "Terms and Conditions",
@@ -88,7 +97,8 @@ class EventoHome extends StatelessWidget {
                 height: 20.h,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                },
                 child: const CommonText(
                   text: "Share",
                   color: whiteColor,

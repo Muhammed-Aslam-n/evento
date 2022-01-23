@@ -73,38 +73,6 @@ class CommonText extends StatelessWidget {
   }
 }
 
-// class CommonText extends StatelessWidget {
-//   final String? text;
-//   final Color? color;
-//   final double? size;
-//   final FontWeight? weight;
-//
-//   const CommonText({this.text, this.weight, this.size, this.color});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       text ?? '',
-//       style: TextStyle(
-//           color: color ?? Colors.grey.shade800,
-//           fontSize: size,
-//           fontWeight: weight ?? FontWeight.w400),
-//     );
-//   }
-// }
-
-class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
-
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
-}
-
 class DataTextFields extends StatelessWidget {
   final String? hintText, errorText;
   final int? minLength, maxLength;
@@ -129,7 +97,7 @@ class DataTextFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.03,
+      height: 50.0.h,
       width: MediaQuery.of(context).size.width * 0.87,
       child: TextFormField(
         textInputAction: TextInputAction.next,
@@ -146,17 +114,6 @@ class DataTextFields extends StatelessWidget {
             borderSide: BorderSide(color: secondaryColor, width: 1.0),
           ),
         ),
-        // validator: Validators.compose(
-        //   [
-        //     Validators.required("$hintText is required"),
-        //     Validators.minLength(minLength ?? 1,
-        //         "$hintText must be greater than $minLength characters"),
-        //     ismaxLength
-        //         ? Validators.maxLength(maxLength ?? 3,
-        //             "$hintText must be less than ${maxLength ?? 3} digits")
-        //         : Validators.maxLength(150, "$hintText must be less than 150")
-        //   ],
-        // ),
         validator: ValidationBuilder().minLength(3).build(),
       ),
     );
@@ -537,7 +494,7 @@ class HoveringUtilityWidget extends StatelessWidget {
   final Color? borderColor, iconColor, containerColor;
   final double? iconSize;
   final bool isShadow;
-  final Future Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onPressed;
 
   const HoveringUtilityWidget(
       {Key? key,
@@ -764,7 +721,7 @@ class DataInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: sbHeight??80.h,
+      height: sbHeight??60.h,
       child: TextFormField(
         textInputAction: TextInputAction.next,
         controller: controller,
@@ -827,6 +784,3 @@ class ShowSimpleDialogue extends StatelessWidget {
     );
   }
 }
-
-
-

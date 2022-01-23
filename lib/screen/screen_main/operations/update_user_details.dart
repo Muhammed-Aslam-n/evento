@@ -14,7 +14,6 @@ class UpdateUserDetails extends StatelessWidget {
     EventoController.eventoController.clearProfileControllers();
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF7F7F8),
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -40,6 +39,24 @@ class UpdateUserDetails extends StatelessWidget {
                         EventoController.eventoController.nameEditingController,
                     hintText: "Name",
                     prefixIcon: Icons.person,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  DataInputField(
+                    minLength: 9,
+                    controller: EventoController.eventoController.phoneNumberController,
+                    hintText: "Phone number",
+                    prefixIcon: Icons.phone,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  DataInputField(
+                    minLength: 9,
+                    controller: EventoController.eventoController.emailEditingController,
+                    hintText: "Email",
+                    prefixIcon: Icons.email,
                   ),
                   SizedBox(
                     height: 10.h,

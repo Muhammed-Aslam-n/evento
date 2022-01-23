@@ -177,7 +177,7 @@ class EventoProfile extends StatelessWidget {
                 ),
                 const CommonText(text: "Update Username",size: 18,color: primaryTextColor,),
                 SizedBox(
-                  height: 5.h,
+                  height: 25.h,
                 ),
                 DataInputField(hintText: "Current Username",controller: EventoController.eventoController.userNameController,minLength: 5,maxLength: 15,prefixIcon: Icons.person,),
                 SizedBox(

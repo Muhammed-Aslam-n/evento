@@ -20,5 +20,5 @@ const dummyText = "Lorem Ipsum is simply dummy text of the printing and typesett
 
 final bssBorderStyle = OutlineInputBorder(
     borderRadius: BorderRadius.circular(24),
-    borderSide: BorderSide.none
+    borderSide: BorderSide()
 );

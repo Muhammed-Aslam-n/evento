@@ -41,7 +41,7 @@ class EditShowCaseDescription extends StatelessWidget {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.only(left: 20,top: 30,right: 20,bottom: 60),
-                      hintText: "Enter your description...",
+                      hintText: "your description...",
                       hintStyle: TextStyle(color: Colors.redAccent.shade700,fontSize: 11)
                     ),
                     minLines: 1,

@@ -14,198 +14,212 @@ class SetupProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: loginBgColor,
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: loginBgColor,
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Padding(
             padding: EdgeInsets.only(left: 20.w),
             child: Column(
               children: [
                 SizedBox(
-                  height: 60.h,
+                  height: 15.h,
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: CommonText(
                     text: "Setup Profile",
                     color: primaryColor,
-                    size: 25.sp,
+                    size: 22.sp,
                   ),
                 ),
                 SizedBox(
-                  height: 10.h,
+                  height: 7.h,
                 ),
-                CommonProfileDisplayWidget(height: 130.h,width: 130.w,color: whiteColor,),
-                //     : const SizedBox(
-                //   height: 150,
-                //   width: 150,
-                //   child: CircleAvatar(
-                //     backgroundImage: AssetImage(
-                //         "assets/images/profile/noProfilePictureImage.png"),
-                //   ),
-                // ),
-
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                SizedBox(
+                  height: 140.h,
+                  width: 130.w,
+                  child: Stack(
                     children: [
-                      SizedBox(
-                        height: 28.h,
+                      CommonProfileDisplayWidget(
+                        height: 130.h,
+                        width: 130.w,
+                        color: whiteColor,
                       ),
-                      SizedBox(
-                        height: 20.h,
-                        child: CommonText(
-                          text: "Your name",
-                          size: 15.sp,
-                          color: primaryColor,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      DataTextFields(
-                        minLength: 9,
-                        controller:
-                            EventoController.eventoController.userNameController,
-                        textInputType: TextInputType.name,
-                        hintText: "your username",
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      GetBuilder<EventoController>(
-                          id: "dropDownItem",
-                          builder: (controller) {
-                            return SizedBox(
-                              height: 60.h,
-                              width: MediaQuery.of(context).size.width * 0.87,
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                value: controller.userSelectedProfession,
-                                hint: const CommonText(
-                                  text: "Select your profession",
-                                  color: primaryColor,
-                                ),
-                                items: controller.professionList
-                                    .map(buildDropDownItems)
-                                    .toList(),
-                                onChanged: (value) {
-                                  controller.changeDropdownItem(value ?? '');
-                                  debugPrint(controller.userSelectedProfession);
-                                },
-                              ),
-                            );
-                          }),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      SizedBox(
-                        height: 23.h,
-                        child: CommonText(
-                          text: "Place",
-                          size: 15.sp,
-                          color: primaryColor,
-                        ),
-                      ),
-                      DataTextFields(
-                        minLength: 9,
-                        controller:
-                            EventoController.eventoController.placeController,
-                        textInputType: TextInputType.name,
-                        hintText: "enter your place",
-                        obscureText: true,
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      SizedBox(
-                        height: 23.h,
-                        child: CommonText(
-                          text: "City",
-                          size: 15.sp,
-                          color: primaryColor,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      DataTextFields(
-                        minLength: 9,
-                        controller: EventoController
-                            .eventoController.cityEditingController,
-                        textInputType: TextInputType.phone,
-                        hintText: "name of your city",
-                        obscureText: false,
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      SizedBox(
-                        height: 23.h,
-                        child: CommonText(
-                          text: "District",
-                          size: 15.sp,
-                          color: primaryColor,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      DataTextFields(
-                        minLength: 9,
-                        controller:
-                            EventoController.eventoController.districtController,
-                        textInputType: TextInputType.phone,
-                        hintText: "your district",
-                        obscureText: false,
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      SizedBox(
-                        height: 23.h,
-                        child: CommonText(
-                          text: "State",
-                          size: 15.sp,
-                          color: primaryColor,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      DataTextFields(
-                        minLength: 9,
-                        controller:
-                            EventoController.eventoController.userStateController,
-                        textInputType: TextInputType.phone,
-                        hintText: "enter your state",
-                        obscureText: false,
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      SizedBox(
-                        height: 17.h,
-                      ),
-                      Center(
-                        child: commonButton(
-                          text: "Choose Your Plan",
-                          onPressed: () {
-
-                            if(_formKey.currentState!.validate()){
-                              // Get.to(() => const RegisterSectionOne());
-                              showSubscriptionBottomSheet();
-                            }else{
-                              debugPrint("EE Kappal Aadi Ulayilla Sir....");
-                            }
+                      Positioned(
+                        right: 15,
+                        bottom: 10,
+                        child: HoveringUtilityWidget(
+                          icon: Icons.edit,
+                          height: 30.h,
+                          width: 30.w,
+                          iconSize: 20,
+                          onPressed: (context) {
+                            debugPrint(
+                                "Vendor profile picture setting button clicked");
                           },
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Expanded(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 20.h,
+                          child: CommonText(
+                            text: "Your name",
+                            size: 15.sp,
+                            color: primaryColor,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        DataTextFields(
+                          minLength: 9,
+                          controller: EventoController
+                              .eventoController.userNameController,
+                          textInputType: TextInputType.name,
+                          hintText: "Username",
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        GetBuilder<EventoController>(
+                            id: "dropDownItem",
+                            builder: (controller) {
+                              return SizedBox(
+                                height: 60.h,
+                                width: MediaQuery.of(context).size.width * 0.87,
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  value: controller.userSelectedProfession,
+                                  hint: const CommonText(
+                                    text: "Select your profession",
+                                    color: primaryColor,
+                                  ),
+                                  items: controller.professionList
+                                      .map(buildDropDownItems)
+                                      .toList(),
+                                  onChanged: (value) {
+                                    controller.changeDropdownItem(value ?? '');
+                                    debugPrint(controller.userSelectedProfession);
+                                  },
+                                ),
+                              );
+                            }),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        SizedBox(
+                          height: 23.h,
+                          child: CommonText(
+                            text: "Place",
+                            size: 15.sp,
+                            color: primaryColor,
+                          ),
+                        ),
+                        DataTextFields(
+                          minLength: 9,
+                          controller:
+                              EventoController.eventoController.placeController,
+                          textInputType: TextInputType.name,
+                          hintText: "Your place",
+                          obscureText: true,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        SizedBox(
+                          height: 23.h,
+                          child: CommonText(
+                            text: "City",
+                            size: 15.sp,
+                            color: primaryColor,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        DataTextFields(
+                          minLength: 9,
+                          controller: EventoController
+                              .eventoController.cityEditingController,
+                          textInputType: TextInputType.phone,
+                          hintText: "Your city",
+                          obscureText: false,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        SizedBox(
+                          height: 23.h,
+                          child: CommonText(
+                            text: "District",
+                            size: 15.sp,
+                            color: primaryColor,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        DataTextFields(
+                          minLength: 9,
+                          controller: EventoController
+                              .eventoController.districtController,
+                          textInputType: TextInputType.phone,
+                          hintText: "Your district",
+                          obscureText: false,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        SizedBox(
+                          height: 23.h,
+                          child: CommonText(
+                            text: "State",
+                            size: 15.sp,
+                            color: primaryColor,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        DataTextFields(
+                          minLength: 9,
+                          controller: EventoController
+                              .eventoController.userStateController,
+                          textInputType: TextInputType.phone,
+                          hintText: "Your state",
+                          obscureText: false,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: commonButton(
+                              width: 210.w,
+                              height: 40.0.h,
+                              textSize: 14.0,
+                              text: "Choose Your Plan",
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  // Get.to(() => const RegisterSectionOne());
+                                  showSubscriptionBottomSheet();
+                                } else {
+                                  debugPrint("EE Kappal Aadi Ulayilla Sir....");
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

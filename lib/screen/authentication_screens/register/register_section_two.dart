@@ -1,4 +1,3 @@
-import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
 import 'package:evento/screen/profile_setup/profile_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:evento/constants/colors.dart';
@@ -52,25 +51,6 @@ class RegisterSectionTwo extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 23.h,
-                              child: CommonText(
-                                text: "Username",
-                                size: 16.sp,
-                                color: primaryColor,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                            DataTextFields(
-                              minLength: 9,
-                              controller: EventoController
-                                  .eventoController.userNameController,
-                              textInputType: TextInputType.name,
-                              errorText: "Username Required",
-                              hintText: "your username",
-                            ),
-                            SizedBox(
                               height: 20.h,
                             ),
                             SizedBox(
@@ -117,7 +97,7 @@ class RegisterSectionTwo extends StatelessWidget {
                               obscureText: false,
                             ),
                             SizedBox(
-                              height: 25.h,
+                              height: 45.h,
                             ),
                             Center(
                               child: commonButton(text: "Join Us",textSize: 14.0,width: 150.0.w,onPressed: ()=>Get.to(()=>const SetupProfile()))

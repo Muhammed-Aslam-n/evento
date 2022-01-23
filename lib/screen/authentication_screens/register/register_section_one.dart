@@ -1,7 +1,7 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
-import 'package:evento/screen/register/register_section_two.dart';
+import 'package:evento/screen/authentication_screens/register/register_section_two.dart';
 import 'package:evento/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,25 +50,7 @@ class RegisterSectionOne extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 23.h,
-                              child: CommonText(
-                                text: "Name",
-                                size: 16.sp,
-                                color: primaryColor,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                            DataTextFields(
-                              minLength: 9,
-                              controller: EventoController
-                                  .eventoController.nameEditingController,
-                              textInputType: TextInputType.name,
-                              errorText: "Name Required",
-                              hintText: "Your name",
-                            ),
+
                             SizedBox(
                               height: 20.h,
                             ),
@@ -116,7 +98,7 @@ class RegisterSectionOne extends StatelessWidget {
                               obscureText: false,
                             ),
                             SizedBox(
-                              height: 35.h,
+                              height: 45.h,
                             ),
                             GestureDetector(
                                 onTap: () {},

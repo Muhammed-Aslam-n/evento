@@ -1,11 +1,12 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
-import 'package:evento/screen/forgot_password/forgot_password_section2.dart';
 import 'package:evento/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'forgot_password_section2.dart';
 
 class ForgotPasswordSectionOne extends StatelessWidget {
   const ForgotPasswordSectionOne({Key? key}) : super(key: key);
@@ -58,9 +59,6 @@ class ForgotPasswordSectionOne extends StatelessWidget {
                                 size: 16.sp,
                                 color: primaryColor,
                               ),
-                              SizedBox(
-                                height: 25.h,
-                              ),
                               DataTextFields(
                                 minLength: 9,
                                 controller: EventoController
@@ -70,7 +68,7 @@ class ForgotPasswordSectionOne extends StatelessWidget {
                                 hintText: "mobile number",
                               ),
                               SizedBox(
-                                height: 2.h,
+                                height: 8.h,
                               ),
                               const CommonText(
                                 text: "OTP will be sent to this number",
