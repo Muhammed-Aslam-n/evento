@@ -1,27 +1,33 @@
 import 'package:evento/screen/subscription_payment/subscription_methods.dart';
+import 'package:evento/widgets/button_widget.dart';
+import 'package:evento/widgets/datatext_field.dart';
+import 'package:evento/widgets/hovering_utility_widget.dart';
+import 'package:evento/widgets/profiledisplyawidget.dart';
+import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
-import 'package:evento/widgets/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SetupProfile extends StatelessWidget {
   const SetupProfile({Key? key}) : super(key: key);
-
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    EventoController.eventoController.clearProfileControllers();
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: loginBgColor,
-        body: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: Padding(
-            padding: EdgeInsets.only(left: 20.w),
+        body: Padding(
+          padding: EdgeInsets.only(left: 20.w),
+          child: GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
             child: Column(
               children: [
                 SizedBox(
@@ -83,7 +89,7 @@ class SetupProfile extends StatelessWidget {
                           height: 5.h,
                         ),
                         DataTextFields(
-                          minLength: 9,
+                          minLength: 3,
                           controller: EventoController
                               .eventoController.userNameController,
                           textInputType: TextInputType.name,
@@ -93,28 +99,29 @@ class SetupProfile extends StatelessWidget {
                           height: 5.h,
                         ),
                         GetBuilder<EventoController>(
-                            id: "dropDownItem",
-                            builder: (controller) {
-                              return SizedBox(
-                                height: 60.h,
-                                width: MediaQuery.of(context).size.width * 0.87,
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  value: controller.userSelectedProfession,
-                                  hint: const CommonText(
-                                    text: "Select your profession",
-                                    color: primaryColor,
-                                  ),
-                                  items: controller.professionList
-                                      .map(buildDropDownItems)
-                                      .toList(),
-                                  onChanged: (value) {
-                                    controller.changeDropdownItem(value ?? '');
-                                    debugPrint(controller.userSelectedProfession);
-                                  },
+                          id: "dropDownItem",
+                          builder: (controller) {
+                            return SizedBox(
+                              height: 60.h,
+                              width: MediaQuery.of(context).size.width * 0.87,
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                value: controller.userSelectedProfession,
+                                hint: const CommonText(
+                                  text: "Select your profession",
+                                  color: primaryColor,
                                 ),
-                              );
-                            }),
+                                items: controller.professionList
+                                    .map(buildDropDownItems)
+                                    .toList(),
+                                onChanged: (value) {
+                                  controller.changeDropdownItem(value ?? '');
+                                  debugPrint(controller.userSelectedProfession);
+                                },
+                              ),
+                            );
+                          },
+                        ),
                         SizedBox(
                           height: 5.h,
                         ),
@@ -127,7 +134,7 @@ class SetupProfile extends StatelessWidget {
                           ),
                         ),
                         DataTextFields(
-                          minLength: 9,
+                          minLength: 3,
                           controller:
                               EventoController.eventoController.placeController,
                           textInputType: TextInputType.name,
@@ -149,7 +156,7 @@ class SetupProfile extends StatelessWidget {
                           height: 5.h,
                         ),
                         DataTextFields(
-                          minLength: 9,
+                          minLength: 3,
                           controller: EventoController
                               .eventoController.cityEditingController,
                           textInputType: TextInputType.phone,
@@ -171,7 +178,7 @@ class SetupProfile extends StatelessWidget {
                           height: 5.h,
                         ),
                         DataTextFields(
-                          minLength: 9,
+                          minLength: 3,
                           controller: EventoController
                               .eventoController.districtController,
                           textInputType: TextInputType.phone,
@@ -193,7 +200,7 @@ class SetupProfile extends StatelessWidget {
                           height: 5.h,
                         ),
                         DataTextFields(
-                          minLength: 9,
+                          minLength: 3,
                           controller: EventoController
                               .eventoController.userStateController,
                           textInputType: TextInputType.phone,
@@ -204,7 +211,7 @@ class SetupProfile extends StatelessWidget {
                           child: Center(
                             child: commonButton(
                               width: 210.w,
-                              height: 40.0.h,
+                              height: 55.0.h,
                               textSize: 14.0,
                               text: "Choose Your Plan",
                               onPressed: () {

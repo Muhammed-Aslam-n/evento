@@ -6,7 +6,10 @@ import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/screen_main/home/showcase_images/utils.dart';
 import 'package:evento/screen/screen_main/operations/edit_showcase_description.dart';
 import 'package:evento/screen/screen_main/operations/update_user_details.dart';
-import 'package:evento/widgets/widgets.dart';
+import 'package:evento/widgets/hovering_utility_widget.dart';
+import 'package:evento/widgets/profiledetail_card.dart';
+import 'package:evento/widgets/textwidget.dart';
+import 'package:evento/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,6 +22,7 @@ class DetailsProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Column(

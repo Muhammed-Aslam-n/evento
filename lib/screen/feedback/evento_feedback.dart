@@ -1,6 +1,6 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/getx_controller.dart';
-import 'package:evento/widgets/widgets.dart';
+import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class EventoFeedback extends StatelessWidget {

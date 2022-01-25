@@ -1,7 +1,8 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
-import 'package:evento/widgets/widgets.dart';
+import 'package:evento/widgets/button_widget.dart';
+import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

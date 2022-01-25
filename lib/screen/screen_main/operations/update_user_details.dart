@@ -1,6 +1,7 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/getx_controller.dart';
-import 'package:evento/widgets/widgets.dart';
+import 'package:evento/widgets/data_input_type.dart';
+import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/elusive_icons.dart';
@@ -36,7 +37,7 @@ class UpdateUserDetails extends StatelessWidget {
                   DataInputField(
                     minLength: 9,
                     controller:
-                        EventoController.eventoController.nameEditingController,
+                        EventoController.eventoController.firstNameController,
                     hintText: "Name",
                     prefixIcon: Icons.person,
                   ),

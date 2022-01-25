@@ -4,14 +4,17 @@ import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/feedback/evento_feedback.dart';
 import 'package:evento/screen/screen_main/home/order/order_details_page.dart';
-import 'package:evento/screen/screen_main/profile/evento_profile.dart';
-import 'package:evento/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:evento/widgets/appointment_shortcard_widget.dart';
+import 'package:evento/widgets/appointment_widget.dart';
+import 'package:evento/widgets/floating_button.dart';
+import 'package:evento/widgets/profiledisplyawidget.dart';
+import 'package:evento/widgets/show_simple_dialogue.dart';
+import 'package:evento/widgets/textwidget.dart';
+import 'package:evento/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/linearicons_free_icons.dart';
 import 'package:get/get.dart';
-
 import '../../operations/edit_available_slots.dart';
 
 class EventoHome extends StatelessWidget {
@@ -101,6 +104,19 @@ class EventoHome extends StatelessWidget {
                 },
                 child: const CommonText(
                   text: "Share",
+                  color: whiteColor,
+                  size: 18,
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              TextButton(
+                onPressed: () {
+                  debugPrint("Logging Out...");
+                },
+                child: const CommonText(
+                  text: "Logout",
                   color: whiteColor,
                   size: 18,
                 ),

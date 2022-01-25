@@ -50,7 +50,8 @@ class EventoController extends GetxController {
   TextEditingController passwordEditingController = TextEditingController();
 
   // SignUp Section TextEditingControllers
-  TextEditingController nameEditingController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController confirmPasswordEditingController =
@@ -201,9 +202,15 @@ class EventoController extends GetxController {
     passwordEditingController.clear();
   }
 
+  clearSignup2Controllers(){
+    phoneNumberController.clear();
+    emailEditingController.clear();
+    passwordEditingController.clear();
+    confirmPasswordEditingController.clear();
+  }
 
   clearProfileControllers() {
-    nameEditingController.clear();
+    firstNameController.clear();
     placeController.clear();
     cityEditingController.clear();
     districtController.clear();

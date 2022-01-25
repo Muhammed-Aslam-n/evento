@@ -1,5 +1,7 @@
 import 'package:evento/constants/colors.dart';
-import 'package:evento/widgets/widgets.dart';
+import 'package:evento/widgets/snackbar_common.dart';
+import 'package:evento/widgets/textwidget.dart';
+import 'package:evento/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -34,9 +36,8 @@ class EditAvailableSlots extends StatelessWidget {
                   child: SfDateRangePicker(
                     todayHighlightColor: primaryTextColor,
                     backgroundColor: primaryBgColor,
-                    initialSelectedDate:
-                      DateTime(2022,2,1),
-                    maxDate: DateTime(2022,2,28),
+                    initialSelectedDate: DateTime(2022, 2, 1),
+                    maxDate: DateTime(2022, 2, 28),
                     view: DateRangePickerView.month,
                     selectionMode: DateRangePickerSelectionMode.multiple,
                     showActionButtons: true,
@@ -44,19 +45,21 @@ class EditAvailableSlots extends StatelessWidget {
                     confirmText: "UPDATE SLOTS",
                     selectionColor: warningColors,
                     initialSelectedDates: [
-                      DateTime(2022,1,26),
-                      DateTime(2022,2,23),
-                      DateTime(2022,1,31),
+                      DateTime(2022, 1, 26),
+                      DateTime(2022, 2, 23),
+                      DateTime(2022, 1, 31),
                     ],
                     onCancel: () {
                       _dateRangePickerController.selectedDates = null;
                     },
                     onSubmit: (selectedDates) async {
-                      await commonSnackBar(title: "Slots",message: "Slots Updated");
-                      Future.delayed(const Duration(seconds: 1))
-                          .whenComplete(() {
-                            Get.back();
-                          });
+                      await commonSnackBar(
+                          title: "Slots", message: "Slots Updated");
+                      Future.delayed(const Duration(seconds: 1)).whenComplete(
+                        () {
+                          Get.back();
+                        },
+                      );
 
                       debugPrint(selectedDates.toString());
                     },
@@ -66,10 +69,18 @@ class EditAvailableSlots extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: const Color(0xFFDFD6F3)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: const Color(0xFFDFD6F3)),
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
-                    child: CommonText(text: "Note: Selected dates will be treated as your unavailable days",size: 12,weight: FontWeight.w400,color: warningColors,),
+                    child: CommonText(
+                      text:
+                          "Note: Selected dates will be treated as your unavailable days",
+                      size: 12,
+                      weight: FontWeight.w400,
+                      color: warningColors,
+                    ),
                   ),
                 ),
               ),

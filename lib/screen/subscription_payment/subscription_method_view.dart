@@ -1,5 +1,5 @@
 import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
-import 'package:evento/widgets/widgets.dart';
+import 'package:evento/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class SubscriptionMethodView extends StatelessWidget {
