@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:evento/api_helper/api_helper.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
+import 'package:evento/models/registration.dart';
+import 'package:evento/screen/profile_setup/profile_setup.dart';
 import 'package:evento/screen/screen_main/chat/evento_chat.dart';
 import 'package:evento/screen/screen_main/home/home_pages/evento_home.dart';
 import 'package:evento/screen/screen_main/profile/evento_profile.dart';
@@ -12,6 +15,42 @@ import 'package:url_launcher/url_launcher.dart';
 
 class EventoController extends GetxController {
   static EventoController eventoController = Get.find();
+
+  // TextEditing Controllers
+
+  // Section to Handle all the User Login / Register  Authentication
+
+  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController passwordEditingController = TextEditingController();
+
+  // SignUp Section TextEditingControllers
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController confirmPasswordEditingController =
+      TextEditingController();
+
+  // Profile Setup Controllers
+
+  TextEditingController placeController = TextEditingController();
+  TextEditingController cityEditingController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
+  TextEditingController userStateController = TextEditingController();
+
+  // Vendor Description Updating
+  TextEditingController descriptionController = TextEditingController().obs();
+
+  // Vendor Username Updating
+  TextEditingController currentUsernameController =
+      TextEditingController().obs();
+  TextEditingController newUsernameController = TextEditingController().obs();
+
+  // Vendor Password Updating
+  TextEditingController newPasswordController = TextEditingController().obs();
+
+  // Feedback Section
+  TextEditingController feedbackController = TextEditingController().obs();
 
   @override
   void onInit() async {
@@ -44,18 +83,45 @@ class EventoController extends GetxController {
 
   // -----------------------------------------------------------------------------
 
-  // Section to Handle all the User Login / Register  Authentication
+  // Vendor Registration
+  List<String> regDetailList = <String>[];
 
-  TextEditingController emailEditingController = TextEditingController();
-  TextEditingController passwordEditingController = TextEditingController();
+  saveRegister1values() {
+    regDetailList.addAll([
+      firstNameController.text,
+      lastNameController.text,
+      userNameController.text
+    ]);
+    EventoController.eventoController.firstNameController.clear();
+    EventoController.eventoController.lastNameController.clear();
+    EventoController.eventoController.userNameController.clear();
+  }
 
-  // SignUp Section TextEditingControllers
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController confirmPasswordEditingController =
-      TextEditingController();
+  saveRegister2values() {
+    regDetailList.addAll([
+      emailEditingController.text,
+      phoneNumberController.text,
+      passwordEditingController.text,
+      confirmPasswordEditingController.text
+    ]);
+    clearSignup2Controllers();
+  }
+
+  registerVendor() async {
+    final model = EventoRegistration(
+        firstName: regDetailList[0],
+        lastName: regDetailList[1],
+        username: regDetailList[2],
+        email: regDetailList[3],
+        phoneNumber: regDetailList[4],
+        password: regDetailList[5],
+        password2: regDetailList[6]);
+    ApiService()
+        .createVendor(model)
+        .then((value) => Get.to(() => const SetupProfile()));
+  }
+
+  //------------------------------------
 
   final professionList = [
     'Photography',
@@ -71,11 +137,6 @@ class EventoController extends GetxController {
     userSelectedProfession = value;
     update(['dropDownItem']);
   }
-
-  TextEditingController placeController = TextEditingController();
-  TextEditingController cityEditingController = TextEditingController();
-  TextEditingController districtController = TextEditingController();
-  TextEditingController userStateController = TextEditingController();
 
   int userSelectedProfessionValue = 2;
 
@@ -144,7 +205,7 @@ class EventoController extends GetxController {
     'assets/images/showCaseImage/ShowCase6.jfif',
   ].obs();
 
-  pickImage({required int index,required file}) async {
+  pickImage({required int index, required file}) async {
     // XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
     // file = File(xfile!.path);
     showCaseImages.insert(index, file);
@@ -153,34 +214,9 @@ class EventoController extends GetxController {
 
 // Vendor Profile Updating
 
-  // Vendor Description Updating
-  TextEditingController descriptionController = TextEditingController().obs();
-
-  // Vendor Username Updating
-
-  TextEditingController currentUsernameController =
-      TextEditingController().obs();
-  TextEditingController newUsernameController = TextEditingController().obs();
-
-  // Vendor Password Updating
-  TextEditingController newPasswordController = TextEditingController().obs();
-
-
-
-  // Feedback Section
-
-  TextEditingController feedbackController = TextEditingController().obs();
-
-  clearFeedbackController(){
+  clearFeedbackController() {
     feedbackController.clear();
   }
-
-
-
-
-
-
-
 
   commonSnackBar(title, message) {
     Get.snackbar(
@@ -190,19 +226,17 @@ class EventoController extends GetxController {
       isDismissible: true,
       backgroundColor: const Color(0xFFF8F8F8),
       colorText: greenColor,
-      margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       snackPosition: SnackPosition.BOTTOM,
     );
   }
 
-
-
-  clearLoginControllers(){
+  clearLoginControllers() {
     emailEditingController.clear();
     passwordEditingController.clear();
   }
 
-  clearSignup2Controllers(){
+  clearSignup2Controllers() {
     phoneNumberController.clear();
     emailEditingController.clear();
     passwordEditingController.clear();

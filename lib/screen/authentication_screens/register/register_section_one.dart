@@ -9,9 +9,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+
 class RegisterSectionOne extends StatelessWidget {
   RegisterSectionOne({Key? key}) : super(key: key);
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final controller = EventoController.eventoController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,8 +75,7 @@ class RegisterSectionOne extends StatelessWidget {
                                 ),
                                 DataTextFields(
                                   minLength: 1,
-                                  controller: EventoController
-                                      .eventoController.firstNameController,
+                                  controller: controller.firstNameController,
                                   textInputType: TextInputType.name,
                                   hintText: "Your Name",
                                   obscureText: false,
@@ -96,8 +99,7 @@ class RegisterSectionOne extends StatelessWidget {
                                 ),
                                 DataTextFields(
                                   minLength: 1,
-                                  controller: EventoController
-                                      .eventoController.lastNameController,
+                                  controller: controller.lastNameController,
                                   textInputType: TextInputType.name,
                                   hintText: "Your Name",
                                   obscureText: false,
@@ -121,8 +123,7 @@ class RegisterSectionOne extends StatelessWidget {
                                 ),
                                 DataTextFields(
                                   minLength: 3,
-                                  controller: EventoController
-                                      .eventoController.userNameController,
+                                  controller: controller.userNameController,
                                   textInputType: TextInputType.name,
                                   hintText: "Login username",
                                   obscureText: false,
@@ -171,11 +172,9 @@ class RegisterSectionOne extends StatelessWidget {
   }
   validateForm(context){
     if(_formKey.currentState!.validate()){
+      controller.saveRegister1values();
       Get.to(() => RegisterSectionTwo());
       FocusScope.of(context).unfocus();
-      EventoController.eventoController.firstNameController.clear();
-      EventoController.eventoController.lastNameController.clear();
-      EventoController.eventoController.userNameController.clear();
     }
   }
 }

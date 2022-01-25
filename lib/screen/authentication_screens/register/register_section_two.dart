@@ -12,7 +12,10 @@ import 'package:get/get.dart';
 
 class RegisterSectionTwo extends StatelessWidget {
   RegisterSectionTwo({Key? key}) : super(key: key);
+
+  final controller = EventoController.eventoController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,8 +72,7 @@ class RegisterSectionTwo extends StatelessWidget {
                                       height: 4.h,
                                     ),
                                     DataTextFields(
-                                      controller: EventoController
-                                          .eventoController.phoneNumberController,
+                                      controller: controller.phoneNumberController,
                                       textInputType: TextInputType.number,
                                       hintText: "Mobile number",
                                       obscureText: false,
@@ -91,8 +93,7 @@ class RegisterSectionTwo extends StatelessWidget {
                                       height: 4.h,
                                     ),
                                     DataTextFields(
-                                      controller: EventoController
-                                          .eventoController.emailEditingController,
+                                      controller: controller.emailEditingController,
                                       textInputType: TextInputType.emailAddress,
                                       hintText: "Login email",
                                       obscureText: false,
@@ -114,8 +115,7 @@ class RegisterSectionTwo extends StatelessWidget {
                                     ),
                                     DataTextFields(
                                       minLength: 8,
-                                      controller: EventoController
-                                          .eventoController.passwordEditingController,
+                                      controller: controller.passwordEditingController,
                                       textInputType: TextInputType.visiblePassword,
                                       hintText: "Enter your password",
                                       obscureText: true,
@@ -136,7 +136,7 @@ class RegisterSectionTwo extends StatelessWidget {
                                     ),
                                     DataTextFields(
                                       minLength: 8,
-                                      controller: EventoController.eventoController
+                                      controller: controller
                                           .confirmPasswordEditingController,
                                       textInputType: TextInputType.visiblePassword,
                                       hintText: "Re-enter password",
@@ -168,9 +168,9 @@ class RegisterSectionTwo extends StatelessWidget {
 
   validateFormField(BuildContext context) {
     if(_formKey.currentState!.validate()){
-      Get.to(() => const SetupProfile());
+      controller.saveRegister2values();
+      controller.registerVendor();
       FocusScope.of(context).unfocus();
-      EventoController.eventoController.clearSignup2Controllers();
     }
   }
 }
