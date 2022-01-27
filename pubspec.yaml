@@ -51,6 +51,7 @@ dependencies:
   backdrop: any
   flutter_markdown: any
   share_plus: any
+  the_validator: any
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -90,7 +91,7 @@ flutter:
      - assets/gifs/
      - assets/images/platform/
      - assets/policies/
-
+     - assets/images/newImages/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

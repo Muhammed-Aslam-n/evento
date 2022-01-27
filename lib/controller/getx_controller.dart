@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:evento/api_helper/api_helper.dart';
+import 'package:evento/api_helper/models/registration.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
-import 'package:evento/models/registration.dart';
-import 'package:evento/screen/profile_setup/profile_setup.dart';
 import 'package:evento/screen/screen_main/chat/evento_chat.dart';
 import 'package:evento/screen/screen_main/home/home_pages/evento_home.dart';
 import 'package:evento/screen/screen_main/profile/evento_profile.dart';
@@ -24,12 +23,14 @@ class EventoController extends GetxController {
   TextEditingController passwordEditingController = TextEditingController();
 
   // SignUp Section TextEditingControllers
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+
+  TextEditingController nameController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController confirmPasswordEditingController =
+  TextEditingController confirmPwdCntrlr =
       TextEditingController();
+  TextEditingController signupEmailCntlr = TextEditingController();
+  TextEditingController signupPassContlr = TextEditingController();
 
   // Profile Setup Controllers
 
@@ -84,42 +85,40 @@ class EventoController extends GetxController {
   // -----------------------------------------------------------------------------
 
   // Vendor Registration
-  List<String> regDetailList = <String>[];
 
-  saveRegister1values() {
-    regDetailList.addAll([
-      firstNameController.text,
-      lastNameController.text,
-      userNameController.text
-    ]);
-    EventoController.eventoController.firstNameController.clear();
-    EventoController.eventoController.lastNameController.clear();
-    EventoController.eventoController.userNameController.clear();
-  }
+  // List<String> regDetailList = <String>[];
 
-  saveRegister2values() {
-    regDetailList.addAll([
-      emailEditingController.text,
-      phoneNumberController.text,
-      passwordEditingController.text,
-      confirmPasswordEditingController.text
-    ]);
-    clearSignup2Controllers();
-  }
-
-  registerVendor() async {
+  registerVendor(context) async {
+    // debugPrint(regDetailList.toString());
     final model = EventoRegistration(
-        firstName: regDetailList[0],
-        lastName: regDetailList[1],
-        username: regDetailList[2],
-        email: regDetailList[3],
-        phoneNumber: regDetailList[4],
-        password: regDetailList[5],
-        password2: regDetailList[6]);
+        name: nameController.text,
+        username: userNameController.text,
+        email: signupEmailCntlr.text,
+        phoneNumber: phoneNumberController.text,
+        password: signupPassContlr.text,
+        password2: confirmPwdCntrlr.text,);
     ApiService()
-        .createVendor(model)
-        .then((value) => Get.to(() => const SetupProfile()));
+        .createVendor(model,context);
   }
+
+
+  loginVendor(){
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   //------------------------------------
 
@@ -236,15 +235,17 @@ class EventoController extends GetxController {
     passwordEditingController.clear();
   }
 
-  clearSignup2Controllers() {
+  clearSignupControllers() {
+    nameController.clear();
+    userNameController.clear();
     phoneNumberController.clear();
-    emailEditingController.clear();
-    passwordEditingController.clear();
-    confirmPasswordEditingController.clear();
+    signupEmailCntlr.clear();
+    signupPassContlr.clear();
+    confirmPwdCntrlr.clear();
   }
 
   clearProfileControllers() {
-    firstNameController.clear();
+    nameController.clear();
     placeController.clear();
     cityEditingController.clear();
     districtController.clear();

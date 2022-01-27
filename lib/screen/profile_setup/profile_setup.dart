@@ -12,9 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SetupProfile extends StatelessWidget {
-  const SetupProfile({Key? key}) : super(key: key);
+  SetupProfile({Key? key}) : super(key: key);
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final controller = EventoController.eventoController;
   @override
   Widget build(BuildContext context) {
     EventoController.eventoController.clearProfileControllers();

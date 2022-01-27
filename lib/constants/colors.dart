@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-const primaryColor = Color(0xFFE60965);
+const primaryColor = Color(0xFF01ba76);
 const secondaryColor = Color(0xFFF2789F);
+const newTextColor = Color(0xFF797b7a);
 const whiteColor = Color(0xFFFFFFFF);
 const primaryBgColor = Color(0xFFFEE3EC);
 const loginBgColor = Color(0xFFF5F5F5);

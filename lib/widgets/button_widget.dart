@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget commonButton(
-    {text, height, width, color, textSize, textColor, onPressed}) =>
+    {text, height, width, color, textSize, textColor, onPressed,bgColor}) =>
     ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(
             Size(width ?? 250.w, height ?? 48.h)),
         backgroundColor:
-        MaterialStateProperty.all<Color>(color ?? secondaryColor),
+        MaterialStateProperty.all<Color>(color ?? bgColor??secondaryColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),

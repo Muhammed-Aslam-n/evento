@@ -1,5 +1,8 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/screen/authentication_screens/login/login_home.dart';
+import 'package:evento/screen/authentication_screens/register/register_section_one.dart';
+import 'package:evento/screen/authentication_screens/register/register_section_two.dart';
 import 'package:evento/screen/splashscreen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +28,11 @@ class MyApp extends StatelessWidget {
           primaryColor: primaryColor
         ),
         home: const SplashScreen(),
+        getPages: [
+          GetPage(name: '/', page: () => const SplashScreen()),
+          GetPage(name: '/login', page: () => LoginHome()),
+          GetPage(name: '/reg1', page: () => RegisterSectionOne()),
+        ],
       ),
       designSize: const Size(375, 812),
     );

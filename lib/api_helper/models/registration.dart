@@ -3,17 +3,14 @@
 // String welcomeToJson(List<Welcome> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 class EventoRegistration {
   EventoRegistration({
-    this.firstName,
-    this.lastName,
+    this.name,
     this.username,
     this.email,
     this.phoneNumber,
     this.password,
     this.password2,
   });
-
-  String? firstName;
-  String? lastName;
+  String? name;
   String? username;
   String? email;
   String? phoneNumber;
@@ -21,8 +18,7 @@ class EventoRegistration {
   String? password2;
 
   factory EventoRegistration.fromJson(Map<String, dynamic> json) => EventoRegistration(
-    firstName: json["first_name"],
-    lastName: json["last_name"],
+    name: json["name"],
     username: json["username"],
     email: json["email"],
     phoneNumber: json["phone_number"],
@@ -31,8 +27,7 @@ class EventoRegistration {
   );
 
   Map<String, dynamic> toJson() => {
-    "first_name": firstName,
-    "last_name": lastName,
+    "name": name,
     "username": username,
     "email": email,
     "phone_number": phoneNumber,

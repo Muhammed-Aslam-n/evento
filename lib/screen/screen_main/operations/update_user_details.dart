@@ -37,7 +37,7 @@ class UpdateUserDetails extends StatelessWidget {
                   DataInputField(
                     minLength: 9,
                     controller:
-                        EventoController.eventoController.firstNameController,
+                        EventoController.eventoController.nameController,
                     hintText: "Name",
                     prefixIcon: Icons.person,
                   ),

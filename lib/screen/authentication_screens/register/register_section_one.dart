@@ -2,13 +2,16 @@ import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/authentication_screens/register/register_section_two.dart';
-import 'package:evento/widgets/datatext_field.dart';
+import 'package:evento/widgets/auth_fields.dart';
+import 'package:evento/widgets/auth_platform_widget.dart';
+import 'package:evento/widgets/button_widget.dart';
 import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-
+import 'package:fluttericon/entypo_icons.dart';
+import 'package:form_validator/form_validator.dart';
+import 'package:the_validator/the_validator.dart';
 
 class RegisterSectionOne extends StatelessWidget {
   RegisterSectionOne({Key? key}) : super(key: key);
@@ -18,149 +21,155 @@ class RegisterSectionOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: loginBgColor,
-      body: SingleChildScrollView(
-        child: GestureDetector(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: whiteColor,
+        body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   height: 36.h,
                 ),
-                Image.asset("assets/images/loginImages/loginBgVendor.png",height: 200.h,),
-                Expanded(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                        color: whiteColor, borderRadius: loginBorderRadius),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 22.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 28.h,
-                          ),
-                          CommonText(
-                            text: "Sign Up",
-                            color: primaryColor,
-                            size: 32.sp,
-                          ),
-                          SizedBox(
-                            height: 20.h,
-                          ),
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                SizedBox(
-                                  height: 23.h,
-                                  child: CommonText(
-                                    text: "First name",
-                                    size: 16.sp,
-                                    color: primaryColor,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                DataTextFields(
-                                  minLength: 1,
-                                  controller: controller.firstNameController,
-                                  textInputType: TextInputType.name,
-                                  hintText: "Your Name",
-                                  obscureText: false,
-                                  inputFormatter: [
-                                    FilteringTextInputFormatter.allow(RegExp('[a-z.A-Z ]'))
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                SizedBox(
-                                  height: 23.h,
-                                  child: CommonText(
-                                    text: "Last name",
-                                    size: 16.sp,
-                                    color: primaryColor,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                DataTextFields(
-                                  minLength: 1,
-                                  controller: controller.lastNameController,
-                                  textInputType: TextInputType.name,
-                                  hintText: "Your Name",
-                                  obscureText: false,
-                                  inputFormatter: [
-                                    FilteringTextInputFormatter.allow(RegExp('[a-z.A-Z ]'))
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                SizedBox(
-                                  height: 23.h,
-                                  child: CommonText(
-                                    text: "Username",
-                                    size: 16.sp,
-                                    color: primaryColor,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                DataTextFields(
-                                  minLength: 3,
-                                  controller: controller.userNameController,
-                                  textInputType: TextInputType.name,
-                                  hintText: "Login username",
-                                  obscureText: false,
-                                  inputFormatter: [
-                                    FilteringTextInputFormatter.allow(RegExp('[a-z.A-Z ]'))
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 45.h,
-                                ),
-                                GestureDetector(
-                                    onTap: () {},
-                                    child: Center(
-                                      child: Container(
-                                        height: 64.h,
-                                        width: 64.h,
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: secondaryColor),
-                                        child: IconButton(
-                                          onPressed: () {
-                                            validateForm(context);
-                                          },
-                                          icon: const Icon(
-                                            Icons.keyboard_arrow_right,
-                                            color: whiteColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                ),
-                              ],
-                            ),
-                          ),
+                SizedBox(
+                  height: 28.h,
+                ),
+                CommonText(
+                  text: "Let's Get Started",
+                  color: primaryColor,
+                  size: 28.sp,
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      AuthTextField(
+                        minLength: 1,
+                        controller: controller.nameController,
+                        textInputType: TextInputType.name,
+                        hintText: "Name",
+                        prefixIcon: Icons.person,
+                        obscureText: false,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp('[a-z.A-Z ]'))
                         ],
                       ),
-                    ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      AuthTextField(
+                        minLength: 3,
+                        controller: controller.userNameController,
+                        textInputType: TextInputType.name,
+                        hintText: "Username",
+                        prefixIcon: Icons.class_,
+                        obscureText: false,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp('[a-z.A-Z ]'))
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.0.h,
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      AuthTextField(
+                        controller: controller.phoneNumberController,
+                        textInputType: TextInputType.number,
+                        hintText: "Mobile number",
+                        prefixIcon: Icons.call,
+                        obscureText: false,
+                        validationBuilder: ValidationBuilder().phone().build(),
+                      ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      AuthTextField(
+                        controller: controller.signupEmailCntlr,
+                        textInputType: TextInputType.emailAddress,
+                        hintText: "Email",
+                        prefixIcon: Icons.email,
+                        obscureText: false,
+                        validationBuilder: ValidationBuilder().email().build(),
+                      ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      AuthTextField(
+                        minLength: 8,
+                        controller: controller.signupPassContlr,
+                        textInputType: TextInputType.visiblePassword,
+                        hintText: "Password",
+                        prefixIcon: Entypo.key,
+                        obscureText: true,
+                      ),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      AuthTextField(
+                          minLength: 8,
+                          controller: controller.confirmPwdCntrlr,
+                          textInputType: TextInputType.visiblePassword,
+                          hintText: "Confirm Password",
+                          prefixIcon: Icons.vpn_key,
+                          obscureText: true,
+                          validationBuilder: FieldValidator.equalTo(
+                              controller.signupPassContlr,
+                              message: "Password mismatch")
+                      ),
+                      SizedBox(
+                        height: 20.0.h,
+                      ),
+                      const CommonText(
+                        text: "Or, Signup with...",
+                        color: placeHolderColor,
+                        size: 11,
+                        weight: FontWeight.w400,
+                      ),
+                      SizedBox(
+                        height: 20.0.h,
+                      ),
+                      LoginOrSigningPlatform(
+                        height: 40,
+                        width: 50,
+                        onTap: () {
+                          debugPrint("Login with Google Clicked");
+                        },
+                      ),
+                      SizedBox(
+                        height: 35.h,
+                      ),
+                      commonButton(
+                        text: "Join Us",
+                        color: primaryColor,
+                        onPressed: () {
+                          validateForm(context);
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -170,10 +179,10 @@ class RegisterSectionOne extends StatelessWidget {
       ),
     );
   }
-  validateForm(context){
-    if(_formKey.currentState!.validate()){
-      controller.saveRegister1values();
-      Get.to(() => RegisterSectionTwo());
+
+  validateForm(context) {
+    if (_formKey.currentState!.validate()) {
+      controller.registerVendor(context);
       FocusScope.of(context).unfocus();
     }
   }

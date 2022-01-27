@@ -4,28 +4,30 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_validator/form_validator.dart';
 
-class DataTextFields extends StatelessWidget {
+class AuthTextField extends StatelessWidget {
   final String? hintText, errorText;
   final int? minLength;
+  final IconData? prefixIcon;
   final double? hintSize;
-  final bool ismaxLength,obscureText;
+  final bool ismaxLength, obscureText;
   final TextEditingController? controller;
   final TextInputType? textInputType;
   final List<TextInputFormatter>? inputFormatter;
   final dynamic validationBuilder;
 
-  const DataTextFields(
+  const AuthTextField(
       {Key? key,
-        this.hintText,
-        this.errorText,
-        this.controller,
-        this.minLength,
-        this.ismaxLength = false,
-        this.textInputType,
-        this.obscureText = false,
-        this.hintSize,
-        this.inputFormatter,
-        this.validationBuilder})
+      this.hintText,
+      this.errorText,
+      this.controller,
+      this.minLength,
+      this.ismaxLength = false,
+      this.textInputType,
+      this.obscureText = false,
+      this.hintSize,
+      this.inputFormatter,
+      this.validationBuilder,
+      this.prefixIcon})
       : super(key: key);
 
   @override
@@ -40,17 +42,26 @@ class DataTextFields extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: textInputType ?? TextInputType.name,
         decoration: InputDecoration(
+          prefixIcon: Icon(prefixIcon),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           hintText: hintText,
           errorText: errorText,
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: secondaryColor,width: 0.8
-            ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: const BorderSide(color: newTextColor, width: 0.8),
+            borderRadius: BorderRadius.circular(20),
           ),
-          hintStyle: TextStyle(fontSize: hintSize ?? 12,color: secondaryColor),
-          focusedBorder:  const UnderlineInputBorder(
-            borderSide: BorderSide(color: secondaryColor, width: 1.0),
+          hintStyle: TextStyle(fontSize: hintSize ?? 13, color: newTextColor),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: const BorderSide(color: primaryColor, width: 1.2),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          errorBorder: UnderlineInputBorder(
+            borderSide: const BorderSide(color: warningColors, width: 1.2),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedErrorBorder: UnderlineInputBorder(
+            borderSide: const BorderSide(color: primaryColor, width: 1.2),
+            borderRadius: BorderRadius.circular(20),
           ),
         ),
         inputFormatters: inputFormatter,

@@ -5,19 +5,20 @@ import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/authentication_screens/forgot_password/forgot_password_section1.dart';
 import 'package:evento/screen/authentication_screens/register/register_section_one.dart';
 import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
+import 'package:evento/widgets/auth_fields.dart';
+import 'package:evento/widgets/auth_platform_widget.dart';
 import 'package:evento/widgets/button_widget.dart';
-import 'package:evento/widgets/datatext_field.dart';
 import 'package:evento/widgets/textwidget.dart';
-import 'package:evento/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:get/get.dart';
 
 class LoginHome extends StatelessWidget {
-  const LoginHome({Key? key}) : super(key: key);
-  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  LoginHome({Key? key}) : super(key: key);
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final controller = EventoController.eventoController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +28,12 @@ class LoginHome extends StatelessWidget {
         snackBar: const SnackBar(
           content: Text('Tap back again to leave'),
         ),
-        child: SingleChildScrollView(
-          child: GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -39,7 +43,8 @@ class LoginHome extends StatelessWidget {
                     height: 36.h,
                   ),
                   Image.asset(
-                    "assets/images/loginImages/loginBgVendor.png",
+                    "assets/images/newImages/loginImagen.png",
+                    height: 200,
                   ),
                   Expanded(
                     child: Container(
@@ -51,52 +56,44 @@ class LoginHome extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 28.h,
+                              height: 25.h,
                             ),
-                            CommonText(
-                              text: "Log In",
-                              color: primaryColor,
-                              size: 32.sp,
+                            Center(
+                              child: CommonText(
+                                text: "Welcome back !",
+                                color: primaryColor,
+                                size: 26.sp,
+                              ),
                             ),
                             SizedBox(
-                              height: 30.h,
+                              height: 40.h,
                             ),
                             Form(
                               key: _formKey,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CommonText(
-                                    text: "Email",
-                                    size: 16.sp,
-                                    color: primaryColor,
-                                  ),
-                                  DataTextFields(
-                                    controller: EventoController
-                                        .eventoController
+                                  AuthTextField(
+                                    controller: controller
                                         .emailEditingController,
                                     textInputType: TextInputType.emailAddress,
-                                    hintText: "Your email id",
+                                    hintText: "Email",
+                                    prefixIcon: Icons.email,
                                     validationBuilder:
                                         ValidationBuilder().email().build(),
                                   ),
                                   SizedBox(
-                                    height: 20.h,
+                                    height: 30.h,
                                   ),
-                                  CommonText(
-                                    text: "Password",
-                                    size: 16.sp,
-                                    color: primaryColor,
-                                  ),
-                                  DataTextFields(
+                                  AuthTextField(
                                     minLength: 8,
-                                    controller: EventoController
-                                        .eventoController
+                                    controller: controller
                                         .passwordEditingController,
                                     textInputType:
                                         TextInputType.visiblePassword,
                                     hintText: "Password",
                                     obscureText: true,
+                                    prefixIcon: Icons.lock,
                                   ),
                                   SizedBox(
                                     height: 15.h,
@@ -112,21 +109,45 @@ class LoginHome extends StatelessWidget {
                                           text: "Forgot password?",
                                           size: 11.sp,
                                           weight: FontWeight.w400,
-                                          color: secondaryColor,
+                                          color: primaryColor,
                                         ),
                                       ),
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 17.h,
+                                    height: 42.h,
                                   ),
                                   Center(
                                     child: commonButton(
                                       text: "Login",
                                       textSize: 14.0,
-                                      width: 150.0.w,
+                                      width: 200.0.w,
+                                      bgColor: primaryColor,
                                       onPressed: () {
                                         validateToLogin(context);
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.0.h,
+                                  ),
+                                  const Center(
+                                    child: CommonText(
+                                      text: "Or login with",
+                                      color: placeHolderColor,
+                                      size: 11,
+                                      weight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20.0.h,
+                                  ),
+                                  Center(
+                                    child: LoginOrSigningPlatform(
+                                      height: 40,
+                                      width: 50,
+                                      onTap: () {
+                                        debugPrint("Login with Google Clicked");
                                       },
                                     ),
                                   ),
@@ -177,15 +198,15 @@ class LoginHome extends StatelessWidget {
     if (_formKey.currentState!.validate()) {
       Get.offAll(() => const EventoHolder());
       FocusScope.of(context).unfocus();
-      EventoController.eventoController.emailEditingController.clear();
-      EventoController.eventoController.passwordEditingController.clear();
+      controller.emailEditingController.clear();
+      controller.passwordEditingController.clear();
     }
   }
 
   void navigateToSignup(BuildContext context) {
     Get.to(() => RegisterSectionOne());
     FocusScope.of(context).unfocus();
-    EventoController.eventoController.emailEditingController.clear();
-    EventoController.eventoController.passwordEditingController.clear();
+    controller.emailEditingController.clear();
+    controller.passwordEditingController.clear();
   }
 }
