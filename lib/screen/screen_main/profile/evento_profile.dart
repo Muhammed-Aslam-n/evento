@@ -1,14 +1,16 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/controller/profile_updation/password_%20updating.dart';
+import 'package:evento/controller/profile_updation/username_update.dart';
 import 'package:evento/screen/screen_main/profile/details_profile.dart';
 import 'package:evento/screen/screen_main/profile/reviews_evento.dart';
 import 'package:evento/widgets/build_rating_star.dart';
 import 'package:evento/widgets/data_input_type.dart';
 import 'package:evento/widgets/hovering_utility_widget.dart';
 import 'package:evento/widgets/profiledisplyawidget.dart';
+import 'package:evento/widgets/snackbar_common.dart';
 import 'package:evento/widgets/textwidget.dart';
-import 'package:evento/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -159,7 +161,8 @@ class EventoProfile extends StatelessWidget {
   }
 
   buildUpdateUsernameBottomSheet() {
-    EventoController.eventoController.clearUsernameUpdatingControllers();
+    final unameUpdateController = UsernameUpdate.usernameUpdateController;
+    unameUpdateController.clearUpdateUnameCntrlrs();
     Get.bottomSheet(
       Container(
         decoration: const BoxDecoration(
@@ -185,7 +188,7 @@ class EventoProfile extends StatelessWidget {
                 DataInputField(
                   hintText: "Current Username",
                   controller:
-                      EventoController.eventoController.userNameController,
+                  unameUpdateController.usernameController,
                   minLength: 5,
                   maxLength: 15,
                   prefixIcon: Icons.person,
@@ -196,7 +199,7 @@ class EventoProfile extends StatelessWidget {
                 DataInputField(
                   hintText: "New Username",
                   controller:
-                      EventoController.eventoController.newUsernameController,
+                    unameUpdateController.newUsernameController,
                   minLength: 5,
                   maxLength: 15,
                   prefixIcon: Icons.person,
@@ -207,8 +210,8 @@ class EventoProfile extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       Get.back();
-                      EventoController.eventoController.commonSnackBar(
-                          "Username", "Username Updated Successfully");
+                      commonSnackBar(
+                          title:"Username",message: "Username Updated Successfully");
                     },
                     child: const Text(
                       "Save",
@@ -229,7 +232,8 @@ class EventoProfile extends StatelessWidget {
   }
 
   buildUpdatePasswordBSheet() {
-    EventoController.eventoController.clearUpdatePasswordControllers();
+    final controller = UpdatePassword.updatePasswordController;
+    controller.clearPControllers();
     Get.bottomSheet(
       Container(
         decoration: const BoxDecoration(
@@ -254,8 +258,7 @@ class EventoProfile extends StatelessWidget {
                 ),
                 DataInputField(
                   hintText: "Current Password",
-                  controller: EventoController
-                      .eventoController.passwordEditingController,
+                  controller: controller.currentPassword,
                   minLength: 5,
                   maxLength: 8,
                   prefixIcon: Icons.password_outlined,
@@ -266,7 +269,7 @@ class EventoProfile extends StatelessWidget {
                 DataInputField(
                   hintText: "New Password",
                   controller:
-                      EventoController.eventoController.newPasswordController,
+                      controller.newPasswordController,
                   minLength: 5,
                   maxLength: 8,
                   prefixIcon: Icons.password_outlined,
@@ -277,8 +280,8 @@ class EventoProfile extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       Get.back();
-                      EventoController.eventoController.commonSnackBar(
-                          "Password", "Password Updated Successfully");
+                      commonSnackBar(
+                          title: "Password", message: "Password Updated Successfully");
                     },
                     child: const Text(
                       "Save",

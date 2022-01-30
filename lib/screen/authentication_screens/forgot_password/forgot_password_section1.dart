@@ -1,18 +1,17 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
-import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/controller/authorization/forgotController.dart';
 import 'package:evento/widgets/button_widget.dart';
 import 'package:evento/widgets/datatext_field.dart';
 import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-
-import 'forgot_password_section2.dart';
 
 class ForgotPasswordSectionOne extends StatelessWidget {
-  const ForgotPasswordSectionOne({Key? key}) : super(key: key);
+  ForgotPasswordSectionOne({Key? key}) : super(key: key);
+
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final controller = EventoForgotController.eventoFpController;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,8 @@ class ForgotPasswordSectionOne extends StatelessWidget {
               SizedBox(
                 height: 36.h,
               ),
-              Image.asset("assets/images/loginImages/forgottPasswordImage.png"),
+              Image.asset(
+                  "assets/images/loginImages/forgottPasswordImage.png"),
               Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
@@ -62,12 +62,10 @@ class ForgotPasswordSectionOne extends StatelessWidget {
                                 color: primaryColor,
                               ),
                               DataTextFields(
-                                minLength: 9,
-                                controller: EventoController
-                                    .eventoController.phoneNumberController,
-                                textInputType: TextInputType.emailAddress,
-                                // errorText: "Email is Required",
-                                hintText: "mobile number",
+                                minLength: 10,
+                                controller: controller.fpPhoneNumber,
+                                textInputType: TextInputType.phone,
+                                hintText: "Mobile number",
                               ),
                               SizedBox(
                                 height: 8.h,
@@ -83,11 +81,13 @@ class ForgotPasswordSectionOne extends StatelessWidget {
                               ),
                               Center(
                                 child: commonButton(
-                                    text: "Send OTP",
-                                    textSize: 14.0,
-                                    width: 150.0.w,
-                                    onPressed: () => Get.to(() =>
-                                        const ForgotPasswordOtpSection())),
+                                  text: "Send OTP",
+                                  textSize: 14.0,
+                                  width: 150.0.w,
+                                  onPressed: () {
+                                    validateForm(context);
+                                  },
+                                ),
                               ),
                               SizedBox(
                                 height: 35.h,
@@ -105,5 +105,12 @@ class ForgotPasswordSectionOne extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  validateForm(context) {
+    if (_formKey.currentState!.validate()) {
+      controller.fpNumberVerification();
+      FocusScope.of(context).unfocus();
+    }
   }
 }

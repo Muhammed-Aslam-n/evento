@@ -1,4 +1,5 @@
 import 'package:backdrop/backdrop.dart';
+import 'package:evento/api_helper/services/login_api_functions/login_api_service.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
@@ -10,7 +11,6 @@ import 'package:evento/widgets/floating_button.dart';
 import 'package:evento/widgets/profiledisplyawidget.dart';
 import 'package:evento/widgets/show_simple_dialogue.dart';
 import 'package:evento/widgets/textwidget.dart';
-import 'package:evento/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/linearicons_free_icons.dart';
@@ -24,6 +24,17 @@ class EventoHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return BackdropScaffold(
       appBar: BackdropAppBar(
+        actions: [
+          TextButton(
+            onPressed: () {
+              LoginApiService().refreshToken();
+            },
+            child: const Text(
+              "Refresh Token",
+              style: TextStyle(color: whiteColor),
+            ),
+          )
+        ],
         backgroundColor: primaryColor,
       ),
       backLayer: SizedBox(
@@ -35,7 +46,7 @@ class EventoHome extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  Get.to(()=>const EventoFeedback());
+                  Get.to(() => const EventoFeedback());
                 },
                 child: const CommonText(
                   text: "Feedback",
@@ -100,8 +111,7 @@ class EventoHome extends StatelessWidget {
                 height: 20.h,
               ),
               TextButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 child: const CommonText(
                   text: "Share",
                   color: whiteColor,
@@ -113,6 +123,7 @@ class EventoHome extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
+                  EventoController.eventoController.logoutVendor();
                   debugPrint("Logging Out...");
                 },
                 child: const CommonText(

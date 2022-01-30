@@ -17,8 +17,8 @@ class EventoHolder extends StatelessWidget {
       ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
-        color: primaryBgColor,
-        buttonBackgroundColor: primaryBgColor,
+        color: primaryTextColor,
+        buttonBackgroundColor: newBtmNvnColor,
         index: EventoController.eventoController.initialIndex??0,
         height: 60.h,
         animationDuration: const Duration(milliseconds: 300),

@@ -1,10 +1,11 @@
 import 'dart:io';
-
-import 'package:evento/api_helper/api_helper.dart';
-import 'package:evento/api_helper/models/registration.dart';
+import 'package:evento/api_helper/api_constants.dart';
+import 'package:evento/api_helper/services/register/register_vendor.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
+import 'package:evento/screen/authentication_screens/login/login_home.dart';
 import 'package:evento/screen/screen_main/chat/evento_chat.dart';
+import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
 import 'package:evento/screen/screen_main/home/home_pages/evento_home.dart';
 import 'package:evento/screen/screen_main/profile/evento_profile.dart';
 import 'package:flutter/material.dart';
@@ -15,37 +16,8 @@ import 'package:url_launcher/url_launcher.dart';
 class EventoController extends GetxController {
   static EventoController eventoController = Get.find();
 
-  // TextEditing Controllers
-
-  // Section to Handle all the User Login / Register  Authentication
-
-  TextEditingController emailEditingController = TextEditingController();
-  TextEditingController passwordEditingController = TextEditingController();
-
-  // SignUp Section TextEditingControllers
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController confirmPwdCntrlr =
-      TextEditingController();
-  TextEditingController signupEmailCntlr = TextEditingController();
-  TextEditingController signupPassContlr = TextEditingController();
-
-  // Profile Setup Controllers
-
-  TextEditingController placeController = TextEditingController();
-  TextEditingController cityEditingController = TextEditingController();
-  TextEditingController districtController = TextEditingController();
-  TextEditingController userStateController = TextEditingController();
-
   // Vendor Description Updating
   TextEditingController descriptionController = TextEditingController().obs();
-
-  // Vendor Username Updating
-  TextEditingController currentUsernameController =
-      TextEditingController().obs();
-  TextEditingController newUsernameController = TextEditingController().obs();
 
   // Vendor Password Updating
   TextEditingController newPasswordController = TextEditingController().obs();
@@ -55,10 +27,9 @@ class EventoController extends GetxController {
 
   @override
   void onInit() async {
+    await redirectToHomeOrLoginPage();
     prefs = await _prefs;
-    prefs.clear();
     checkAppLaunched();
-
     super.onInit();
   }
 
@@ -82,43 +53,35 @@ class EventoController extends GetxController {
         "value from SharedPreference is ${isAppLaunched.toString()} You may be set clear() before this function poyi ath sheriyaakk");
   }
 
+  Widget? redirectingPage;
+  String? isLogged;
+
+  redirectToHomeOrLoginPage() async {
+    isLogged =
+        await VendorRegisterApi.secureStorage.read(key: didUserLoggedKey);
+    debugPrint("DID USER LOGGED OR NOT : $isLogged");
+    if (isLogged == loggedStatus) {
+      redirectingPage = const EventoHolder();
+    } else {
+      redirectingPage = LoginHome();
+    }
+    debugPrint("Value of isLogged is $isLogged");
+  }
   // -----------------------------------------------------------------------------
 
   // Vendor Registration
 
   // List<String> regDetailList = <String>[];
 
-  registerVendor(context) async {
-    // debugPrint(regDetailList.toString());
-    final model = EventoRegistration(
-        name: nameController.text,
-        username: userNameController.text,
-        email: signupEmailCntlr.text,
-        phoneNumber: phoneNumberController.text,
-        password: signupPassContlr.text,
-        password2: confirmPwdCntrlr.text,);
-    ApiService()
-        .createVendor(model,context);
+  // Login Vendor
+
+
+  logoutVendor() async {
+    await VendorRegisterApi.secureStorage.deleteAll();
+    await VendorRegisterApi.secureStorage
+        .write(key: didUserLoggedKey, value: logoutStatus)
+        .then((value) => Get.offNamed('login'));
   }
-
-
-  loginVendor(){
-
-
-
-
-  }
-
-
-
-
-
-
-
-
-
-
-
 
   //------------------------------------
 
@@ -156,15 +119,15 @@ class EventoController extends GetxController {
   final navigationBarIcons = <Widget>[
     const Icon(
       Icons.home_filled,
-      color: primaryTextColor,
+      color: whiteColor,
     ),
     const Icon(
       Icons.chat_bubble_outline,
-      color: primaryTextColor,
+      color: whiteColor,
     ),
     const Icon(
       Icons.person,
-      color: primaryTextColor,
+      color: whiteColor,
     ),
   ];
 
@@ -230,39 +193,7 @@ class EventoController extends GetxController {
     );
   }
 
-  clearLoginControllers() {
-    emailEditingController.clear();
-    passwordEditingController.clear();
-  }
-
-  clearSignupControllers() {
-    nameController.clear();
-    userNameController.clear();
-    phoneNumberController.clear();
-    signupEmailCntlr.clear();
-    signupPassContlr.clear();
-    confirmPwdCntrlr.clear();
-  }
-
-  clearProfileControllers() {
-    nameController.clear();
-    placeController.clear();
-    cityEditingController.clear();
-    districtController.clear();
-    userStateController.clear();
-  }
-
   clearDescriptionController() {
     descriptionController.clear();
-  }
-
-  clearUsernameUpdatingControllers() {
-    userNameController.clear();
-    newUsernameController.clear();
-  }
-
-  clearUpdatePasswordControllers() {
-    passwordEditingController.clear();
-    newPasswordController.clear();
   }
 }

@@ -39,11 +39,10 @@ dependencies:
   persistent_bottom_nav_bar: any
   flutter_chat_ui: any
   url_launcher: any
-  shared_preferences: any
   animated_splash_screen: any
   double_back_to_close_app: any
   form_validator: any
-  flutter_otp_text_field: any
+  shared_preferences: any
   curved_navigation_bar: any
   syncfusion_flutter_datepicker: any
   flutter_rating_bar: any
@@ -52,11 +51,15 @@ dependencies:
   flutter_markdown: any
   share_plus: any
   the_validator: any
+  flutter_secure_storage: any
+
+
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  pinput: ^1.2.2
 
 dev_dependencies:
   flutter_test:

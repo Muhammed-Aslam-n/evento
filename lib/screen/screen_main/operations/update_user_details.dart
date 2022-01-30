@@ -1,5 +1,5 @@
 import 'package:evento/constants/colors.dart';
-import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/controller/profile_updation/updateProfile.dart';
 import 'package:evento/widgets/data_input_type.dart';
 import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttericon/elusive_icons.dart';
 
 class UpdateUserDetails extends StatelessWidget {
-  const UpdateUserDetails({Key? key}) : super(key: key);
+  UpdateUserDetails({Key? key}) : super(key: key);
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final updateProfileController = UpdateProfile.updateProfileController;
 
   @override
   Widget build(BuildContext context) {
-    EventoController.eventoController.clearProfileControllers();
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -37,7 +37,7 @@ class UpdateUserDetails extends StatelessWidget {
                   DataInputField(
                     minLength: 9,
                     controller:
-                        EventoController.eventoController.nameController,
+                    updateProfileController.nameController,
                     hintText: "Name",
                     prefixIcon: Icons.person,
                   ),
@@ -46,7 +46,7 @@ class UpdateUserDetails extends StatelessWidget {
                   ),
                   DataInputField(
                     minLength: 9,
-                    controller: EventoController.eventoController.phoneNumberController,
+                    controller: updateProfileController.phoneNumberController,
                     hintText: "Phone number",
                     prefixIcon: Icons.phone,
                   ),
@@ -55,7 +55,7 @@ class UpdateUserDetails extends StatelessWidget {
                   ),
                   DataInputField(
                     minLength: 9,
-                    controller: EventoController.eventoController.emailEditingController,
+                    controller: updateProfileController.emailEditingController,
                     hintText: "Email",
                     prefixIcon: Icons.email,
                   ),
@@ -64,7 +64,7 @@ class UpdateUserDetails extends StatelessWidget {
                   ),
                   DataInputField(
                     minLength: 9,
-                    controller: EventoController.eventoController.placeController,
+                    controller: updateProfileController.placeController,
                     hintText: "Place",
                     prefixIcon: Icons.place,
                   ),
@@ -73,8 +73,7 @@ class UpdateUserDetails extends StatelessWidget {
                   ),
                   DataInputField(
                     minLength: 9,
-                    controller:
-                        EventoController.eventoController.cityEditingController,
+                    controller: updateProfileController.cityEditingController,
                     hintText: "City",
                     prefixIcon: Icons.location_city,
                   ),
@@ -83,8 +82,7 @@ class UpdateUserDetails extends StatelessWidget {
                   ),
                   DataInputField(
                     minLength: 9,
-                    controller:
-                        EventoController.eventoController.districtController,
+                    controller: updateProfileController.districtController,
                     hintText: "District",
                     prefixIcon: Elusive.location_circled,
                   ),
@@ -93,8 +91,7 @@ class UpdateUserDetails extends StatelessWidget {
                   ),
                   DataInputField(
                     minLength: 9,
-                    controller:
-                        EventoController.eventoController.userStateController,
+                    controller: updateProfileController.userStateController,
                     hintText: "State",
                     prefixIcon: Icons.bookmark,
                   ),
@@ -109,7 +106,10 @@ class UpdateUserDetails extends StatelessWidget {
                         onPressed: () {
                           _validate();
                         },
-                        child: const Text("Save",style: TextStyle(color: primaryTextColor),)),
+                        child: const Text(
+                          "Save",
+                          style: TextStyle(color: primaryTextColor),
+                        )),
                   )
                 ],
               ),

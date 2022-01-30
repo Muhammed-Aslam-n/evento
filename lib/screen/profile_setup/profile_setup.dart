@@ -1,3 +1,4 @@
+import 'package:evento/controller/profile_setup/profile_setup.dart';
 import 'package:evento/screen/subscription_payment/subscription_methods.dart';
 import 'package:evento/widgets/button_widget.dart';
 import 'package:evento/widgets/datatext_field.dart';
@@ -13,11 +14,13 @@ import 'package:get/get.dart';
 
 class SetupProfile extends StatelessWidget {
   SetupProfile({Key? key}) : super(key: key);
+
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final controller = EventoController.eventoController;
+  final pSetupController = ProfileSetupController.setupProfileController;
+
   @override
   Widget build(BuildContext context) {
-    EventoController.eventoController.clearProfileControllers();
+    pSetupController.clearProfileControllers();
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -90,8 +93,7 @@ class SetupProfile extends StatelessWidget {
                         ),
                         DataTextFields(
                           minLength: 3,
-                          controller: EventoController
-                              .eventoController.userNameController,
+                          controller: pSetupController.usernameController,
                           textInputType: TextInputType.name,
                           hintText: "Username",
                         ),
@@ -135,8 +137,7 @@ class SetupProfile extends StatelessWidget {
                         ),
                         DataTextFields(
                           minLength: 3,
-                          controller:
-                              EventoController.eventoController.placeController,
+                          controller: pSetupController.placeController,
                           textInputType: TextInputType.name,
                           hintText: "Your place",
                           obscureText: true,
@@ -157,8 +158,7 @@ class SetupProfile extends StatelessWidget {
                         ),
                         DataTextFields(
                           minLength: 3,
-                          controller: EventoController
-                              .eventoController.cityEditingController,
+                          controller: pSetupController.cityController,
                           textInputType: TextInputType.phone,
                           hintText: "Your city",
                           obscureText: false,
@@ -179,8 +179,7 @@ class SetupProfile extends StatelessWidget {
                         ),
                         DataTextFields(
                           minLength: 3,
-                          controller: EventoController
-                              .eventoController.districtController,
+                          controller: pSetupController.districtController,
                           textInputType: TextInputType.phone,
                           hintText: "Your district",
                           obscureText: false,
@@ -201,8 +200,7 @@ class SetupProfile extends StatelessWidget {
                         ),
                         DataTextFields(
                           minLength: 3,
-                          controller: EventoController
-                              .eventoController.userStateController,
+                          controller: pSetupController.userStateController,
                           textInputType: TextInputType.phone,
                           hintText: "Your state",
                           obscureText: false,

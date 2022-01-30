@@ -9,7 +9,6 @@ import 'package:evento/screen/screen_main/operations/update_user_details.dart';
 import 'package:evento/widgets/hovering_utility_widget.dart';
 import 'package:evento/widgets/profiledetail_card.dart';
 import 'package:evento/widgets/textwidget.dart';
-import 'package:evento/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -63,7 +62,7 @@ class DetailsProfile extends StatelessWidget {
               ProfileDetailCardWidget(
                 headText: "Address",
                 onPressed: (context) {
-                  Get.to(() => const UpdateUserDetails());
+                  Get.to(() => UpdateUserDetails());
                   debugPrint("Address Edit Pressed");
                 },
                 widgetItems: [
