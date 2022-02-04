@@ -11,6 +11,13 @@ const fpOtpVerificationURL = "http://54.146.246.128/api/forget/otpconfirm/";
 const updateFPaswdURL = "http://54.146.246.128/api/forget/changepass/";
 
 
+const checkVendorSubscribedURL = "http://54.146.246.128/api/vendor/check/";
+const vendorProfileSetupURL = "http://54.146.246.128/api/vendor/register/";
+
+const vendorHomeProfileURL = "http://54.146.246.128/api/vendor/home/";
+const vendorWholeProfileUpdateURL = "http://54.146.246.128/api/vendor/update/";
+
+
 const accesstokenStorageKey = "EventoAccessToken";
 const refreshTokenStorageKey = "EventoRegreshToken";
 const didUserLoggedKey = "USERLOGGEDSTATUS";
@@ -18,6 +25,9 @@ const loggedStatus = "UserLoggedIN";
 const logoutStatus = "UserLoggedOUT";
 const registeredStatus = "UserRegistered";
 const resendOTPhoneNumberKey = "ResendOTPNumber";
+
+
+
 
 
 const refreshTokenUrl = "http://54.146.246.128/api/token/refresh/";

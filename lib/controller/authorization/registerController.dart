@@ -7,12 +7,12 @@ class RegisterController extends GetxController{
 
   static RegisterController registerEventoController = Get.find();
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController confirmPwdCntrlr = TextEditingController();
-  TextEditingController signupEmailCntrlr = TextEditingController();
-  TextEditingController signupPassCntrlr = TextEditingController();
+  TextEditingController nameController = TextEditingController(text: "Aslam");
+  TextEditingController userNameController = TextEditingController(text: "Aslam");
+  TextEditingController phoneNumberController = TextEditingController(text: "9645541338");
+  TextEditingController confirmPwdCntrlr = TextEditingController(text: "Abcd@123");
+  TextEditingController signupEmailCntrlr = TextEditingController(text: "aslam@gmail.com");
+  TextEditingController signupPassCntrlr = TextEditingController(text: "Abcd@123");
 
 
   bool isPostingProgress = false.obs();

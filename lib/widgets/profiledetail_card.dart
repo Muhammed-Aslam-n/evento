@@ -7,13 +7,11 @@ class ProfileDetailCardWidget extends StatelessWidget {
   final String? headText;
   final double? headSize;
   final List<Widget>? widgetItems;
-  final void Function(BuildContext context)? onPressed;
 
   const ProfileDetailCardWidget(
       {Key? key,
         this.headText,
         this.headSize,
-        this.onPressed,
         this.widgetItems})
       : super(key: key);
 
@@ -50,16 +48,6 @@ class ProfileDetailCardWidget extends StatelessWidget {
             ),
             SizedBox(
               height: 0.h,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () => onPressed!(context),
-                child: const CommonText(
-                  text: "Edit",
-                  color: primaryTextColor,
-                ),
-              ),
             ),
           ],
         ),

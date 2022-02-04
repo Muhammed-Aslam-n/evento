@@ -5,24 +5,14 @@ import 'package:get/get.dart';
 
 class LoginController extends GetxController{
 
-
   static LoginController loginController = Get.find();
 
   TextEditingController emailEditingController =
-  TextEditingController(text: "sampl@gmail.com");
+  TextEditingController(text: "aslam@gmail.com");
   TextEditingController passwordEditingController =
-  TextEditingController(text: "Abcd@1234");
+  TextEditingController(text: "Abcd@123");
 
   // Login Vendor
-
-  bool loginCircBar = false.obs();
-
-  loginCircularBar() {
-    loginCircBar == true ? loginCircBar = false : loginCircBar = true;
-    debugPrint("Value of Login Progress is $loginCircBar");
-    update(["loginCircularBar"]);
-  }
-
   loginVendor(context) {
     final model = EventoLogin(
       email: emailEditingController.text,
@@ -35,10 +25,6 @@ class LoginController extends GetxController{
     emailEditingController.clear();
     passwordEditingController.clear();
   }
-
-
-
-
 
 
   @override

@@ -1,5 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:evento/api_helper/api_constants.dart';
+import 'package:evento/api_helper/api_constants/api_constants.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/screen/authentication_screens/login/login_home.dart';

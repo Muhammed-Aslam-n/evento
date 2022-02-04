@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 buildRatingStars(rating) {
   return RatingBar.builder(
+    ignoreGestures: true,
     initialRating: rating,
     itemSize: 25,
     itemCount: 5,

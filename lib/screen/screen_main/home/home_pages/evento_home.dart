@@ -3,6 +3,7 @@ import 'package:evento/api_helper/services/login_api_functions/login_api_service
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/controller/home_controller/home_controller.dart';
 import 'package:evento/screen/feedback/evento_feedback.dart';
 import 'package:evento/screen/screen_main/home/order/order_details_page.dart';
 import 'package:evento/widgets/appointment_shortcard_widget.dart';
@@ -19,10 +20,13 @@ import '../../operations/edit_available_slots.dart';
 
 class EventoHome extends StatelessWidget {
   const EventoHome({Key? key}) : super(key: key);
+  static HomeController basicProfController = HomeController.homeController;
 
   @override
   Widget build(BuildContext context) {
+    basicProfController.showVendorDetails();
     return BackdropScaffold(
+     headerHeight: 300,
       appBar: BackdropAppBar(
         actions: [
           TextButton(
@@ -122,8 +126,8 @@ class EventoHome extends StatelessWidget {
                 height: 20.h,
               ),
               TextButton(
-                onPressed: () {
-                  EventoController.eventoController.logoutVendor();
+                onPressed: () async {
+                  await LoginApiService().logoutVendor();
                   debugPrint("Logging Out...");
                 },
                 child: const CommonText(
@@ -157,17 +161,24 @@ class EventoHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                     color: const Color(0xFFEDEDED),
                   ),
-                  child: const ListTile(
-                      title: CommonText(
-                        text: "Hello",
-                        color: Color(0xFFC1C1B7),
-                        weight: FontWeight.w400,
-                      ),
-                      subtitle: CommonText(
-                        text: "Emiliana Dizuza",
-                        weight: FontWeight.w400,
-                      ),
-                      trailing: CommonProfileDisplayWidget()),
+                  child: GetBuilder<HomeController>(
+                    builder: (controller) {
+                      return ListTile(
+                        title: const CommonText(
+                          text: "Hello",
+                          color: Color(0xFFC1C1B7),
+                          weight: FontWeight.w400,
+                        ),
+                        subtitle: CommonText(
+                          text: controller.vendorName,
+                          weight: FontWeight.w400,
+                        ),
+                        trailing: CommonProfileDisplayWidget(
+                          url: controller.vendorProfileURL,
+                        ),
+                      );
+                    }
+                  ),
                 ),
               ),
               SizedBox(
@@ -244,15 +255,18 @@ class EventoHome extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingAButton(
-        icon: LineariconsFree.calendar_full,
-        fabBackground: primaryTextColor,
-        iconColor: whiteColor,
-        toolTip: "Edit your Slots",
-        onPressed: (context) {
-          Get.to(() => const EditAvailableSlots());
-          debugPrint("Edit Slot Button Clicked");
-        },
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 50.h),
+        child: FloatingAButton(
+          icon: LineariconsFree.calendar_full,
+          fabBackground: primaryTextColor,
+          iconColor: whiteColor,
+          toolTip: "Edit your Slots",
+          onPressed: (context) {
+            Get.to(() => const EditAvailableSlots());
+            debugPrint("Edit Slot Button Clicked");
+          },
+        ),
       ),
     );
   }

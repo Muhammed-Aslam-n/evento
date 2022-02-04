@@ -11,6 +11,7 @@ class EventoHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: GetBuilder<EventoController>(
         id: 'btmNavigation',
         builder: (controller)=> controller.mainScreens[controller.initialIndex??0],

@@ -2,6 +2,9 @@ import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/authorization/forgotController.dart';
 import 'package:evento/controller/authorization/registerController.dart';
 import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/controller/profile/editCredentialsController.dart';
+import 'package:evento/controller/profile/editProfileDetailsController.dart';
+import 'package:evento/controller/profile/showProfileDetailsController.dart';
 import 'package:evento/screen/authentication_screens/forgot_password/forgot_otp_section.dart';
 import 'package:evento/screen/authentication_screens/forgot_password/forgot_password_section1.dart';
 import 'package:evento/screen/authentication_screens/forgot_password/register_otp_section.dart';
@@ -15,22 +18,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'api_helper/services/fetching/fetchdetails.dart';
 import 'controller/authorization/loginController.dart';
+import 'controller/home_controller/home_controller.dart';
 import 'controller/profile_setup/profile_setup.dart';
-import 'controller/profile_updation/password_ updating.dart';
-import 'controller/profile_updation/updateProfile.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(EventoController());
+  Get.put(HomeController());
+  Get.put(ShowProfilesDetailsController());
   Get.put(EventoForgotController());
   Get.put(FetchVendorAPI());
   Get.put(LoginController());
-  Get.put(UpdatePassword());
-  Get.put(UpdateProfile());
+  Get.put(EditProfileDetailsController());
+  Get.put(EditProfileCredentialsController());
   Get.put(ProfileSetupController());
   Get.put(RegisterController());
-
   runApp(const MyApp());
 }
 

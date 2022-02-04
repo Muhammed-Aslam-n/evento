@@ -1,13 +1,11 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
-import 'package:evento/controller/getx_controller.dart';
-import 'package:evento/controller/profile_updation/password_%20updating.dart';
-import 'package:evento/controller/profile_updation/username_update.dart';
+import 'package:evento/controller/profile/showProfileDetailsController.dart';
+import 'package:evento/screen/screen_main/profile/updateProfile.dart';
 import 'package:evento/screen/screen_main/profile/details_profile.dart';
 import 'package:evento/screen/screen_main/profile/reviews_evento.dart';
+import 'package:evento/widgets/auth_fields.dart';
 import 'package:evento/widgets/build_rating_star.dart';
-import 'package:evento/widgets/data_input_type.dart';
-import 'package:evento/widgets/hovering_utility_widget.dart';
 import 'package:evento/widgets/profiledisplyawidget.dart';
 import 'package:evento/widgets/snackbar_common.dart';
 import 'package:evento/widgets/textwidget.dart';
@@ -17,9 +15,9 @@ import 'package:get/get.dart';
 
 class EventoProfile extends StatelessWidget {
   const EventoProfile({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    ShowProfilesDetailsController.showProfilesDetailsController.fetchVendorDetails();
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -36,34 +34,44 @@ class EventoProfile extends StatelessWidget {
                   width: 161.w,
                   child: Stack(
                     children: [
-                      CommonProfileDisplayWidget(
-                        url: sampleProfileImageUrl2,
-                        color: whiteColor,
-                        width: 151.w,
-                        height: 151.h,
-                      ),
-                      Positioned(
-                        right: 15,
-                        bottom: 25,
-                        child: HoveringUtilityWidget(
-                          height: 30.h,
-                          width: 30.h,
-                          icon: Icons.edit,
-                          iconColor: primaryTextColor,
-                          iconSize: 20,
-                        ),
+                      GetBuilder<ShowProfilesDetailsController>(
+                        builder: (controller) {
+                          return CommonProfileDisplayWidget(
+                            url: controller.vendorProfilePicture,
+                            color: whiteColor,
+                            width: 151.w,
+                            height: 151.h,
+                          );
+                        }
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 30.h,
+                  height: 20.h,
                 ),
-                const CommonText(
-                  text: "Emiliana Dizuza",
-                  size: 16,
-                  weight: FontWeight.w500,
-                  color: primaryTextColor,
+                GetBuilder<ShowProfilesDetailsController>(
+                    builder: (controller){
+                    return CommonText(
+                      text: controller.vendorName,
+                      size: 16,
+                      weight: FontWeight.w500,
+                      color: primaryTextColor,
+                    );
+                  }
+                ),
+                SizedBox(
+                  height: 11.h,
+                ),
+                GetBuilder<ShowProfilesDetailsController>(
+                    builder: (controller){
+                    return CommonText(
+                      text: controller.vendorProfession,
+                      size: 12,
+                      weight: FontWeight.w500,
+                      color: placeHolderColor,
+                    );
+                  }
                 ),
                 SizedBox(
                   height: 11.h,
@@ -129,10 +137,10 @@ class EventoProfile extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 Get.back();
-                buildUpdateUsernameBottomSheet();
+                Get.to(() => UpdateProfile());
               },
               child: const CommonText(
-                text: "Update Username",
+                text: "Update Profile",
                 color: whiteColor,
                 size: 12,
                 weight: FontWeight.w400,
@@ -144,10 +152,9 @@ class EventoProfile extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 Get.back();
-                buildUpdatePasswordBSheet();
               },
               child: const CommonText(
-                text: "Update Password",
+                text: "Update Credentials",
                 color: whiteColor,
                 size: 12,
                 weight: FontWeight.w400,
@@ -160,146 +167,158 @@ class EventoProfile extends StatelessWidget {
     );
   }
 
-  buildUpdateUsernameBottomSheet() {
-    final unameUpdateController = UsernameUpdate.usernameUpdateController;
-    unameUpdateController.clearUpdateUnameCntrlrs();
-    Get.bottomSheet(
-      Container(
-        decoration: const BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.only(
-                topLeft: dayContainerRadius, topRight: dayContainerRadius)),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40.h,
-                ),
-                const CommonText(
-                  text: "Update Username",
-                  size: 18,
-                  color: primaryTextColor,
-                ),
-                SizedBox(
-                  height: 25.h,
-                ),
-                DataInputField(
-                  hintText: "Current Username",
-                  controller:
-                  unameUpdateController.usernameController,
-                  minLength: 5,
-                  maxLength: 15,
-                  prefixIcon: Icons.person,
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                DataInputField(
-                  hintText: "New Username",
-                  controller:
-                    unameUpdateController.newUsernameController,
-                  minLength: 5,
-                  maxLength: 15,
-                  prefixIcon: Icons.person,
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                TextButton(
-                    onPressed: () {
-                      Get.back();
-                      commonSnackBar(
-                          title:"Username",message: "Username Updated Successfully");
-                    },
-                    child: const Text(
-                      "Save",
-                      style: TextStyle(color: primaryTextColor),
-                    )),
-                SizedBox(
-                  height: 80.h,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      enableDrag: true,
-      isDismissible: true,
-      isScrollControlled: true,
-    );
-  }
-
-  buildUpdatePasswordBSheet() {
-    final controller = UpdatePassword.updatePasswordController;
-    controller.clearPControllers();
-    Get.bottomSheet(
-      Container(
-        decoration: const BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.only(
-                topLeft: dayContainerRadius, topRight: dayContainerRadius)),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40.h,
-                ),
-                const CommonText(
-                  text: "Update Password",
-                  size: 18,
-                  color: primaryTextColor,
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                DataInputField(
-                  hintText: "Current Password",
-                  controller: controller.currentPassword,
-                  minLength: 5,
-                  maxLength: 8,
-                  prefixIcon: Icons.password_outlined,
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                DataInputField(
-                  hintText: "New Password",
-                  controller:
-                      controller.newPasswordController,
-                  minLength: 5,
-                  maxLength: 8,
-                  prefixIcon: Icons.password_outlined,
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                TextButton(
-                    onPressed: () {
-                      Get.back();
-                      commonSnackBar(
-                          title: "Password", message: "Password Updated Successfully");
-                    },
-                    child: const Text(
-                      "Save",
-                      style: TextStyle(color: primaryTextColor),
-                    )),
-                SizedBox(
-                  height: 80.h,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      enableDrag: true,
-      isDismissible: true,
-      isScrollControlled: true,
-    );
-  }
+  // buildUpdateUsernameBottomSheet(context) {
+  //   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //   unameUpdateController.clearUpdateUnameCntrlrs();
+  //   Get.bottomSheet(
+  //     Container(
+  //       decoration: const BoxDecoration(
+  //           color: whiteColor,
+  //           borderRadius: BorderRadius.only(
+  //               topLeft: dayContainerRadius, topRight: dayContainerRadius)),
+  //       child: SingleChildScrollView(
+  //         child: Padding(
+  //           padding: const EdgeInsets.symmetric(horizontal: 20),
+  //           child: Form(
+  //             key: _formKey,
+  //             child: Column(
+  //               children: [
+  //                 SizedBox(
+  //                   height: 40.h,
+  //                 ),
+  //                 const CommonText(
+  //                   text: "Update Username",
+  //                   size: 18,
+  //                   color: primaryTextColor,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 25.h,
+  //                 ),
+  //                 AuthTextField(
+  //                   hintText: "Current Username",
+  //                   controller: unameUpdateController.usernameController,
+  //                   minLength: 5,
+  //                   prefixIcon: Icons.person,
+  //                 ),
+  //
+  //                 SizedBox(
+  //                   height: 5.h,
+  //                 ),
+  //
+  //                 AuthTextField(
+  //                   hintText: "New Username",
+  //                   controller: unameUpdateController.newUsernameController,
+  //                   minLength: 5,
+  //                   prefixIcon: Icons.person,
+  //                 ),
+  //
+  //                 SizedBox(
+  //                   height: 20.h,
+  //                 ),
+  //                 TextButton(
+  //                     onPressed: () {
+  //                       if (_formKey.currentState!.validate()) {
+  //                         unameUpdateController.updateUsername();
+  //                         Get.back();
+  //                         commonSnackBar(
+  //                             title: "Password", message: "Password Updated Successfully");
+  //                         FocusScope.of(context).unfocus();
+  //                       }
+  //                       },
+  //                     child: const Text(
+  //                       "Save",
+  //                       style: TextStyle(color: primaryTextColor),
+  //                     )),
+  //                 SizedBox(
+  //                   height: 80.h,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //     enableDrag: true,
+  //     isDismissible: true,
+  //     isScrollControlled: true,
+  //   );
+  // }
+  //
+  // buildUpdatePasswordBSheet(context) {
+  //   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //   final controller = UpdatePassword.updatePasswordController;
+  //   controller.clearPControllers();
+  //   Get.bottomSheet(
+  //     Container(
+  //       decoration: const BoxDecoration(
+  //           color: whiteColor,
+  //           borderRadius: BorderRadius.only(
+  //               topLeft: dayContainerRadius, topRight: dayContainerRadius)),
+  //       child: SingleChildScrollView(
+  //         child: Padding(
+  //           padding: const EdgeInsets.symmetric(horizontal: 20),
+  //           child: Form(
+  //             key: _formKey,
+  //             child: Column(
+  //               children: [
+  //                 SizedBox(
+  //                   height: 40.h,
+  //                 ),
+  //                 const CommonText(
+  //                   text: "Update Password",
+  //                   size: 18,
+  //                   color: primaryTextColor,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 15.h,
+  //                 ),
+  //                 AuthTextField(
+  //                   hintText: "Current Password",
+  //                   controller: controller.currentPassword,
+  //                   minLength: 8,
+  //                   prefixIcon: Icons.lock,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 20.h,
+  //                 ),
+  //                 AuthTextField(
+  //                   hintText: "New Password",
+  //                   controller:
+  //                   controller.newPasswordController,
+  //                   minLength: 8,
+  //                   prefixIcon: Icons.lock,
+  //                 ),
+  //                 SizedBox(
+  //                   height: 20.h,
+  //                 ),
+  //                 TextButton(
+  //                     onPressed: () {
+  //                       if (_formKey.currentState!.validate()) {
+  //                         controller.updatePassword();
+  //                         Get.back();
+  //                         commonSnackBar(
+  //                             title: "Password", message: "Password Updated Successfully");
+  //                         FocusScope.of(context).unfocus();
+  //                       }
+  //                     },
+  //                     child: const Text(
+  //                       "Save",
+  //                       style: TextStyle(color: primaryTextColor),
+  //                     )),
+  //                 SizedBox(
+  //                   height: 80.h,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //     enableDrag: true,
+  //     isDismissible: true,
+  //     isScrollControlled: true,
+  //   );
+  // }
 
   buildTabBarHeading({String? text}) => Container(
         padding: const EdgeInsets.all(8),

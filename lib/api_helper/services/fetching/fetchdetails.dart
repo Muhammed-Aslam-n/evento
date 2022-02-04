@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:evento/api_helper/models/registration.dart';
-import 'package:evento/controller/getx_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 
-import '../../api_constants.dart';
+import '../../api_constants/api_constants.dart';
 
 class FetchVendorAPI{
 

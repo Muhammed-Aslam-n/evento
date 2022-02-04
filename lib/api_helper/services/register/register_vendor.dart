@@ -7,7 +7,7 @@ import 'package:evento/widgets/snackbar_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import '../../api_constants.dart';
+import '../../api_constants/api_constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final controller = RegisterController.registerEventoController;
@@ -64,8 +64,6 @@ class VendorRegisterApi {
           );
         }
       } else {
-        await secureStorage.write(
-            key: keyOfLastRegVendorPhonenum, value: eventoModel.phoneNumber);
         await secureStorage
             .write(key: didUserLoggedKey, value: logoutStatus)
             .then(
@@ -75,8 +73,6 @@ class VendorRegisterApi {
             return sendOtpAfterRegistration();
           },
         );
-        controller.changePostingState();
-        // Get.offNamedUntil('/forgot2', (route) => false);
       }
     } on DioError catch (dioError) {
       controller.changePostingState();
@@ -93,9 +89,9 @@ class VendorRegisterApi {
   Future sendOtpAfterRegistration() async {
     String? vendorPhoneNumber =
         await secureStorage.read(key: keyOfLastRegVendorPhonenum);
+    debugPrint("Getting MobilNumber is $vendorPhoneNumber");
     try {
-      Response regOTPResponse = await _dio!.post(verifyWithOtpAfterRegisterURL,
-          data: {'phone_number': '$vendorPhoneNumber'});
+      Response regOTPResponse = await _dio!.get(verifyWithOtpAfterRegisterURL);
       debugPrint("The Response of Registered OTP is ${regOTPResponse.data}");
       if (regOTPResponse.data['error'] != null) {
         commonSnackBar(title: "Verification", message: "Invalid Phone number");
@@ -110,11 +106,9 @@ class VendorRegisterApi {
   }
 
   Future verifyRegisteredOtp(otpPassword) async {
-    String? vendorPhoneNumber =
-        await secureStorage.read(key: keyOfLastRegVendorPhonenum);
     try {
       Response cnfrmRegOTPResponse = await _dio!.post(confirmRegistrationOTPURL,
-          data: {'otp': otpPassword, 'phone_number': vendorPhoneNumber});
+          data: {'otp': otpPassword});
       debugPrint(
           "The Response of Registered OTP Verification is ${cnfrmRegOTPResponse.data}");
       if (cnfrmRegOTPResponse.data['success'] == 'otp verified') {

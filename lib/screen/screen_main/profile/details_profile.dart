@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
 import 'package:evento/controller/getx_controller.dart';
+import 'package:evento/controller/profile/showProfileDetailsController.dart';
 import 'package:evento/screen/screen_main/home/showcase_images/utils.dart';
-import 'package:evento/screen/screen_main/operations/edit_showcase_description.dart';
-import 'package:evento/screen/screen_main/operations/update_user_details.dart';
 import 'package:evento/widgets/hovering_utility_widget.dart';
 import 'package:evento/widgets/profiledetail_card.dart';
 import 'package:evento/widgets/textwidget.dart';
@@ -19,6 +17,7 @@ class DetailsProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ShowProfilesDetailsController.showProfilesDetailsController.fetchVendorDetails();
     return Scaffold(
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -44,13 +43,9 @@ class DetailsProfile extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              ProfileDetailCardWidget(
+              const ProfileDetailCardWidget(
                 headText: "Profile Description",
-                onPressed: (context) {
-                  Get.to(() => const EditShowCaseDescription());
-                  debugPrint("Description Edit Pressed");
-                },
-                widgetItems: const [
+                widgetItems: [
                   CommonText(
                     text: dummyText,
                   )
@@ -59,26 +54,34 @@ class DetailsProfile extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              ProfileDetailCardWidget(
-                headText: "Address",
-                onPressed: (context) {
-                  Get.to(() => UpdateUserDetails());
-                  debugPrint("Address Edit Pressed");
-                },
-                widgetItems: [
-                  const CommonText(
-                    text: "Emiliana Dizuza",
-                  ),
-                  const CommonText(
-                    text: "Vagon Villa - SM Street",
-                  ),
-                  const CommonText(
-                    text: "New York 10253",
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                ],
+              GetBuilder<ShowProfilesDetailsController>(
+                  builder: (controller){
+                  return ProfileDetailCardWidget(
+                    headText: "Address",
+                    widgetItems: [
+                      CommonText(
+                        text: "${controller.vendorPlace} ,",
+                      ),
+                      CommonText(
+                        text: "${controller.vendorCity}",
+                      ),
+                      Row(
+                        children: [
+                          CommonText(
+                            text: "${controller.vendorState}",
+                          ),
+                          SizedBox(width: 10.w,),
+                          CommonText(
+                            text: "${controller.vendorPincode}",
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                    ],
+                  );
+                }
               ),
             ],
           ),
@@ -88,10 +91,11 @@ class DetailsProfile extends StatelessWidget {
   }
 
   buildShowCaseGrid() {
+    final controller = ShowProfilesDetailsController.showProfilesDetailsController;
     return GridView.builder(
       shrinkWrap: true,
       physics: const ScrollPhysics(),
-      itemCount: EventoController.eventoController.showCaseImages.length,
+      itemCount: controller.showCaseImages.length,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 200,
         childAspectRatio: 2 / 2,
@@ -107,7 +111,7 @@ class DetailsProfile extends StatelessWidget {
                 onTap: () {
                   showEnlargedImage(index);
                 },
-                child: GetBuilder<EventoController>(
+                child: GetBuilder<ShowProfilesDetailsController>(
                   id: 'showCaseSection',
                   builder: (controller) {
                     return ClipRRect(
@@ -196,7 +200,7 @@ class DetailsProfile extends StatelessWidget {
     final file =
         await Utils.pickMedia(isGallery: isGallery, cropImage: cropSquareImage);
     if (file == null) return;
-    EventoController.eventoController.pickImage(index: index, file: file);
+    ShowProfilesDetailsController.showProfilesDetailsController.pickImage(index: index, file: file);
   }
 
   Future<File?> cropSquareImage(File imageFile) async {
@@ -208,6 +212,7 @@ class DetailsProfile extends StatelessWidget {
   }
 
   showEnlargedImage(int index) {
+    final controller = ShowProfilesDetailsController.showProfilesDetailsController;
     return Get.dialog(
       GestureDetector(
         onTap: () {
@@ -218,16 +223,15 @@ class DetailsProfile extends StatelessWidget {
           height: 150,
           width: 100,
           decoration: BoxDecoration(color: Colors.grey.shade400),
-          child: EventoController
-                      .eventoController.showCaseImages[index].runtimeType
+          child: controller.showCaseImages[index].runtimeType
                       .toString() ==
                   'String'
               ? Image.asset(
-                  EventoController.eventoController.showCaseImages[index],
+                  controller.showCaseImages[index],
                   fit: BoxFit.contain,
                 )
               : Image.file(
-                  EventoController.eventoController.showCaseImages[index],
+                  controller.showCaseImages[index],
                   fit: BoxFit.contain,
                 ),
         ),

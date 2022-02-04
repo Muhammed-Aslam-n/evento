@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:evento/api_helper/api_constants.dart';
+import 'package:evento/api_helper/api_constants/api_constants.dart';
 import 'package:evento/api_helper/services/register/register_vendor.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
@@ -18,9 +18,6 @@ class EventoController extends GetxController {
 
   // Vendor Description Updating
   TextEditingController descriptionController = TextEditingController().obs();
-
-  // Vendor Password Updating
-  TextEditingController newPasswordController = TextEditingController().obs();
 
   // Feedback Section
   TextEditingController feedbackController = TextEditingController().obs();
@@ -69,43 +66,8 @@ class EventoController extends GetxController {
   }
   // -----------------------------------------------------------------------------
 
-  // Vendor Registration
 
-  // List<String> regDetailList = <String>[];
-
-  // Login Vendor
-
-
-  logoutVendor() async {
-    await VendorRegisterApi.secureStorage.deleteAll();
-    await VendorRegisterApi.secureStorage
-        .write(key: didUserLoggedKey, value: logoutStatus)
-        .then((value) => Get.offNamed('login'));
-  }
-
-  //------------------------------------
-
-  final professionList = [
-    'Photography',
-    'Make Up',
-    'Decoration',
-    'Mehndi',
-    'Wedding Card',
-    'Catering'
-  ];
-  String userSelectedProfession = 'Photography'.obs();
-
-  changeDropdownItem(value) {
-    userSelectedProfession = value;
-    update(['dropDownItem']);
-  }
-
-  int userSelectedProfessionValue = 2;
-
-  changeSubscriptionMode(value) {
-    userSelectedProfessionValue = value;
-    update(['subscriptionSection']);
-  }
+  // SubscriptionMethodSelecting
 
   int subscriptionMethodValue = 1;
 
@@ -114,7 +76,9 @@ class EventoController extends GetxController {
     update(['subscriptionMethod']);
   }
 
-// Home BottomNavigation Items
+
+  //------------------------------------
+  // Home BottomNavigation Items
   int? initialIndex = 0.obs();
   final navigationBarIcons = <Widget>[
     const Icon(
@@ -137,9 +101,9 @@ class EventoController extends GetxController {
   }
 
   List mainScreens = [
-    const EventoHome(),
+    EventoHome(),
     const EventoChat(),
-    const EventoProfile(),
+    EventoProfile(),
   ];
 
 // OrderDetailsPlaceHolders
@@ -153,25 +117,6 @@ class EventoController extends GetxController {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  // ShowCase image Updating
-  File? file = File('');
-
-  List<dynamic> showCaseImages = <dynamic>[
-    'assets/images/showCaseImage/ShowCase1.jfif',
-    'assets/images/showCaseImage/ShowCase2.jfif',
-    'assets/images/showCaseImage/ShowCase3.jfif',
-    'assets/images/showCaseImage/ShowCase4.jfif',
-    'assets/images/showCaseImage/ShowCase5.jfif',
-    'assets/images/showCaseImage/ShowCase6.jfif',
-  ].obs();
-
-  pickImage({required int index, required file}) async {
-    // XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    // file = File(xfile!.path);
-    showCaseImages.insert(index, file);
-    update(['showCaseSection']);
   }
 
 // Vendor Profile Updating

@@ -14,33 +14,38 @@ class CommonProfileDisplayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Getting URL is $url");
     return Container(
       height: height! + 4,
       width: width! + 4,
       padding: const EdgeInsets.all(5),
       decoration:
-      BoxDecoration(color: color ?? secondaryColor, shape: BoxShape.circle),
-      child: ClipOval(
-        child: Image.network(
-          url ?? sampleProfileImageUrl,
-          height: height,
-          width: width,
-          fit: BoxFit.cover,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            }
-            return Center(
-              child: Image.asset(
-                "assets/gifs/loadingGiphy.gif",
-                height: height ?? 40.h,
-                width: width ?? 40.w,
-              ),
-            );
-          },
-        ),
-      ),
+          BoxDecoration(color: color ?? secondaryColor, shape: BoxShape.circle,),
+      child: url.runtimeType.toString() != '_File'
+          ? ClipOval(
+              child: Image.network(
+              url ?? sampleProfileImageUrl,
+              height: height,
+              width: width,
+              fit: BoxFit.cover,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Center(
+                  child: Image.asset(
+                    "assets/gifs/loadingGiphy.gif",
+                    height: height ?? 40.h,
+                    width: width ?? 40.w,
+                  ),
+                );
+              },
+            ))
+          : const CircleAvatar(
+              backgroundImage:
+                  AssetImage("assets/images/loginImages/noProfileImage.png"),
+            ),
     );
   }
 }

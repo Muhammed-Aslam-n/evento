@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:evento/api_helper/api_constants.dart';
+import 'package:evento/api_helper/api_constants/api_constants.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/authorization/forgotController.dart';
 import 'package:evento/screen/authentication_screens/forgot_password/forgot_otp_section.dart';
@@ -116,6 +116,7 @@ class ForgotPasswordAPI {
 
 
   Future updateForgotPassword({phoneNumber,newPassword}) async{
+    debugPrint("Getting phonenumber is $phoneNumber");
     debugPrint("The new Password to Update is $newPassword");
     try{
       Response updateFPswrdResponse = await _dio!.post(updateFPaswdURL,data: {'phone_number':'$phoneNumber','password':'$newPassword'});
