@@ -52,6 +52,7 @@ dependencies:
   share_plus: any
   the_validator: any
   flutter_secure_storage: any
+  network_to_file_image: any
 
 
 
@@ -96,6 +97,7 @@ flutter:
      - assets/images/platform/
      - assets/policies/
      - assets/images/newImages/
+     - assets/images/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

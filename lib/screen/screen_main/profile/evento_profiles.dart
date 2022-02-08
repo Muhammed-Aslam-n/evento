@@ -1,6 +1,9 @@
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
+import 'package:evento/controller/profile/editCredentialsController.dart';
+import 'package:evento/controller/profile/editProfileDetailsController.dart';
 import 'package:evento/controller/profile/showProfileDetailsController.dart';
+import 'package:evento/screen/screen_main/profile/credentialUpdation.dart';
 import 'package:evento/screen/screen_main/profile/updateProfile.dart';
 import 'package:evento/screen/screen_main/profile/details_profile.dart';
 import 'package:evento/screen/screen_main/profile/reviews_evento.dart';
@@ -17,7 +20,6 @@ class EventoProfile extends StatelessWidget {
   const EventoProfile({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    ShowProfilesDetailsController.showProfilesDetailsController.fetchVendorDetails();
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -35,14 +37,14 @@ class EventoProfile extends StatelessWidget {
                   child: Stack(
                     children: [
                       GetBuilder<ShowProfilesDetailsController>(
-                        builder: (controller) {
-                          return CommonProfileDisplayWidget(
-                            url: controller.vendorProfilePicture,
-                            color: whiteColor,
-                            width: 151.w,
-                            height: 151.h,
-                          );
-                        }
+                          builder: (controller) {
+                            return CommonProfileDisplayWidget(
+                              url: controller.vendorProfilePicture,
+                              color: whiteColor,
+                              width: 151.w,
+                              height: 151.h,
+                            );
+                          }
                       ),
                     ],
                   ),
@@ -52,26 +54,26 @@ class EventoProfile extends StatelessWidget {
                 ),
                 GetBuilder<ShowProfilesDetailsController>(
                     builder: (controller){
-                    return CommonText(
-                      text: controller.vendorName,
-                      size: 16,
-                      weight: FontWeight.w500,
-                      color: primaryTextColor,
-                    );
-                  }
+                      return CommonText(
+                        text: controller.vendorName,
+                        size: 16,
+                        weight: FontWeight.w500,
+                        color: primaryTextColor,
+                      );
+                    }
                 ),
                 SizedBox(
                   height: 11.h,
                 ),
                 GetBuilder<ShowProfilesDetailsController>(
                     builder: (controller){
-                    return CommonText(
-                      text: controller.vendorProfession,
-                      size: 12,
-                      weight: FontWeight.w500,
-                      color: placeHolderColor,
-                    );
-                  }
+                      return CommonText(
+                        text: controller.vendorProfession,
+                        size: 12,
+                        weight: FontWeight.w500,
+                        color: placeHolderColor,
+                      );
+                    }
                 ),
                 SizedBox(
                   height: 11.h,
@@ -137,7 +139,7 @@ class EventoProfile extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 Get.back();
-                Get.to(() => UpdateProfile());
+                EditProfile().fetchVendorWholeDetailsForUpdation().then((value) => Get.to(() => UpdateProfile()));
               },
               child: const CommonText(
                 text: "Update Profile",
@@ -152,6 +154,8 @@ class EventoProfile extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 Get.back();
+                Get.to(()=> CredentialUpdation());
+                // EditProfileCredentialsController.editProfileCredentialsController:
               },
               child: const CommonText(
                 text: "Update Credentials",
@@ -321,16 +325,16 @@ class EventoProfile extends StatelessWidget {
   // }
 
   buildTabBarHeading({String? text}) => Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Center(
-          child: CommonText(
-            text: text ?? '',
-            size: 14.6,
-            weight: FontWeight.w500,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.all(8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+    ),
+    child: Center(
+      child: CommonText(
+        text: text ?? '',
+        size: 14.6,
+        weight: FontWeight.w500,
+      ),
+    ),
+  );
 }

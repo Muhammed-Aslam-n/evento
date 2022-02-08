@@ -1,10 +1,8 @@
 import 'package:evento/controller/profile/editProfileDetailsController.dart';
-import 'package:evento/controller/profile_setup/profile_setup.dart';
 import 'package:evento/widgets/button_widget.dart';
 import 'package:evento/widgets/hovering_utility_widget.dart';
 import 'package:evento/widgets/profiledisplyawidget.dart';
 import 'package:evento/widgets/registerTextField.dart';
-import 'package:evento/widgets/snackbar_common.dart';
 import 'package:evento/widgets/textwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:evento/constants/colors.dart';
@@ -14,14 +12,11 @@ import 'package:get/get.dart';
 
 class UpdateProfile extends StatelessWidget {
   UpdateProfile({Key? key}) : super(key: key);
-
+  final updateController = EditProfile.editProfile;
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final updateController =
-      EditProfileDetailsController.editProfileDetailsController;
 
   @override
   Widget build(BuildContext context) {
-    updateController.fetchVendorDetails();
     return Scaffold(
       backgroundColor: loginBgColor,
       body: SingleChildScrollView(
@@ -51,71 +46,47 @@ class UpdateProfile extends StatelessWidget {
                   width: 130.w,
                   child: Stack(
                     children: [
-                      GetBuilder<EditProfileDetailsController>(
-                        id: 'vendorProfilePictureSelection',
-                        builder: (controller) {
-                          return controller.file.path == ''
-                              ? Container(
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                      image: ExactAssetImage(
-                                          "assets/images/loginImages/noProfileImage.png"),
-                                    ),
-                                  ),
-                                )
-                              : controller.file.runtimeType.toString() ==
-                                      '_File'
-                                  ? CircleAvatar(
-                                      backgroundImage:
-                                          FileImage(controller.file),
-                                      radius: 150,
-                                    )
-                                  : CommonProfileDisplayWidget(
-                                      height: 130.h,
-                                      width: 130.w,
-                                      url: controller.file.path,
-                                      color: whiteColor,
-                                    );
-                        },
-                      ),
-                      GetBuilder<EditProfileDetailsController>(
-                        id: 'vendorProfilePictureSelection',
-                        builder: (controller) {
-                          return controller.file.path == ''
-                              ? Positioned(
-                                  right: 15,
-                                  bottom: 30,
-                                  child: HoveringUtilityWidget(
-                                    icon: Icons.edit,
-                                    height: 30.h,
-                                    width: 30.w,
-                                    iconSize: 20,
-                                    onPressed: (context) {
-                                      updateController
-                                          .getVendorProfilePicture();
-                                      debugPrint(
-                                          "Vendor profile picture setting button clicked");
-                                    },
-                                  ),
-                                )
-                              : Positioned(
-                                  right: 15,
-                                  bottom: 10,
-                                  child: HoveringUtilityWidget(
-                                    icon: Icons.edit,
-                                    height: 30.h,
-                                    width: 30.w,
-                                    iconSize: 20,
-                                    onPressed: (context) {
-                                      updateController
-                                          .getVendorProfilePicture();
-                                      debugPrint(
-                                          "Vendor profile picture setting button clicked");
-                                    },
-                                  ),
-                                );
-                        },
-                      ),
+                      GetBuilder<EditProfile>(
+                          id: "UpdateWholeProfile",
+                          builder: (controller) {
+                            return CommonProfileDisplayWidget(
+                              height: 130.h,
+                              width: 130.w,
+                              url: controller.profileString,
+                              color: whiteColor,
+                            );
+                          }),
+                      updateController.file.path == ''
+                          ? Positioned(
+                              right: 5,
+                              bottom: 20,
+                              child: HoveringUtilityWidget(
+                                icon: Icons.edit,
+                                height: 30.h,
+                                width: 30.w,
+                                iconSize: 20,
+                                onPressed: (context) {
+                                  updateController.getVendorProfilePicture();
+                                  debugPrint(
+                                      "Vendor profile picture setting button clicked");
+                                },
+                              ),
+                            )
+                          : Positioned(
+                              right: 15,
+                              bottom: 10,
+                              child: HoveringUtilityWidget(
+                                icon: Icons.edit,
+                                height: 30.h,
+                                width: 30.w,
+                                iconSize: 20,
+                                onPressed: (context) {
+                                  updateController.getVendorProfilePicture();
+                                  debugPrint(
+                                      "Vendor profile picture setting button clicked");
+                                },
+                              ),
+                            )
                     ],
                   ),
                 ),
@@ -140,8 +111,8 @@ class UpdateProfile extends StatelessWidget {
                         SizedBox(
                           height: 60.h,
                           width: MediaQuery.of(context).size.width * 0.87,
-                          child: GetBuilder<EditProfileDetailsController>(
-                            id: "dropDownItem",
+                          child: GetBuilder<EditProfile>(
+                            id: "UpdateWholeProfile",
                             builder: (controller) {
                               return DropdownButton<String>(
                                 isExpanded: true,
@@ -149,21 +120,19 @@ class UpdateProfile extends StatelessWidget {
                                   color: primaryColor,
                                   thickness: 1.2,
                                 ),
-                                value: updateController.userSelectedProfession,
+                                value: controller.userSelectedProfession,
                                 hint: const CommonText(
                                   text: "Select your profession",
                                   color: newTextColor,
                                   size: 13,
                                   weight: FontWeight.w400,
                                 ),
-                                items: updateController.professionList
+                                items: controller.professionList
                                     .map(buildDropDownItems)
                                     .toList(),
                                 onChanged: (value) {
-                                  updateController
-                                      .changeDropdownItem(value ?? '');
-                                  debugPrint(
-                                      updateController.userSelectedProfession);
+                                  controller.changeDropdownItem(value ?? '');
+                                  debugPrint(controller.userSelectedProfession);
                                 },
                               );
                             },
@@ -272,6 +241,7 @@ class UpdateProfile extends StatelessWidget {
                           margin: EdgeInsets.only(top: 10.h, right: 10),
                           padding: EdgeInsets.only(left: 10.w, top: 10.h),
                           child: TextFormField(
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             controller: updateController.descriptionController,
                             maxLines: 5,
                             decoration: const InputDecoration.collapsed(
@@ -293,8 +263,7 @@ class UpdateProfile extends StatelessWidget {
                             textSize: 14.0,
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // EditProfileDetailsController()
-                                //     .sendProfileUpdateValues();
+                                updateController.sendProfileUpdateValues();
                                 FocusScope.of(context).unfocus();
                               }
                             },
@@ -303,7 +272,7 @@ class UpdateProfile extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

@@ -9,6 +9,7 @@ class VendorProfileSetup {
     this.city,
     this.state,
     this.pincode,
+    this.description,
     this.subscriptionType,
     this.subscriptionAmount
   });
@@ -20,6 +21,7 @@ class VendorProfileSetup {
   String? city;
   String? state;
   String? pincode;
+  String? description;
   String? subscriptionType;
   String? subscriptionAmount;
 
@@ -31,6 +33,7 @@ class VendorProfileSetup {
     city: json["city"],
     state: json['state'],
     pincode: json["pincode"],
+    description: json['description'],
     subscriptionType: json['subscription_type'],
     subscriptionAmount: json["subscription_amount"],
   );
@@ -43,6 +46,7 @@ class VendorProfileSetup {
     "city": city,
     "state": state,
     "pincode": pincode,
+    'description': description,
     "subscription_type": subscriptionType,
     "subscription_amount": subscriptionAmount,
   };

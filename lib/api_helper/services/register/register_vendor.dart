@@ -3,6 +3,7 @@ import 'package:evento/api_helper/models/registration.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/authorization/registerController.dart';
 import 'package:evento/screen/authentication_screens/forgot_password/register_otp_section.dart';
+import 'package:evento/screen/authentication_screens/login/login_home.dart';
 import 'package:evento/widgets/snackbar_common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -116,7 +117,7 @@ class VendorRegisterApi {
         await secureStorage.delete(key: didUserLoggedKey);
         await secureStorage.write(key: didUserLoggedKey, value: logoutStatus);
         debugPrint("Both Verification Success");
-        Get.offNamed('login');
+        Get.off(LoginHome());
       } else {
         debugPrint("Both Verification FAILED");
         commonSnackBar(

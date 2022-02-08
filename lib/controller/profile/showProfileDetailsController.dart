@@ -1,6 +1,10 @@
 import 'dart:io';
 
-import 'package:evento/api_helper/services/home/profile_details_constants.dart';
+import 'package:evento/api_helper/api_constants/api_constants.dart';
+import 'package:evento/api_helper/models/profile/show_whole_profile_model.dart';
+import 'package:evento/api_helper/services/profile/profile_updation/profile_updation_api.dart';
+import 'package:evento/api_helper/services/profile/show_profile_api.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +14,16 @@ class ShowProfilesDetailsController extends GetxController{
 
   static FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
+
+  @override
+  void onInit(){
+    checkLogStatus();
+    super.onInit();
+  }
+
+
+  VendorWholeDetails? model;
+
   String? vendorName;
   String? vendorPlace;
   String? vendorProfilePicture;
@@ -17,37 +31,49 @@ class ShowProfilesDetailsController extends GetxController{
   String? vendorState;
   String? vendorPincode;
   String? vendorProfession;
+  String? logStatus;
 
-
-  fetchVendorDetails() async{
-    vendorName = await secureStorage.read(key: vendorNameKey);
-    vendorPlace = await secureStorage.read(key: vendorPlaceKey);
-    vendorProfilePicture = await secureStorage.read(key: vendorProfileURLKey);
-    vendorCity = await secureStorage.read(key: vendorCityKey);
-    vendorState = await secureStorage.read(key: vendorStateKey);
-    vendorPincode = await secureStorage.read(key: vendorPincodeKey);
-    vendorProfession = await secureStorage.read(key: vendorProfessionKey);
+  Future checkLogStatus() async{
+    logStatus = await secureStorage.read(key: didUserLoggedKey);
+    if(logStatus == loggedStatus){
+      model =  await ShowWholeProfileAPI().fetchVendorWholeProfileDetails();
+      debugPrint("On Init Mode of ProfileDetails Show page is  ${model?.profilePicture}");
+      showVendorWholeDetails();
+    }
+  }
+  // List<dynamic> sample = List.generate(6, (index) => '').obs();
+  showVendorWholeDetails() async{
+    vendorName = model?.name;
+    vendorPlace = model?.place;
+    vendorProfilePicture = model?.profilePicture;
+    vendorCity = model?.city;
+    vendorState = model?.state;
+    vendorPincode = model?.pincode;
+    vendorProfession = model?.category;
+    showCaseImages[0] = model?.showCase1??'';
+    showCaseImages[1] = model?.showCase2??'';
+    showCaseImages[2] = model?.showCase3??'';
+    showCaseImages[3] = model?.showCase4??'';
+    showCaseImages[4] = model?.showCase5??'';
     update();
   }
 
   // ShowCase image Updating
   File? file = File('');
 
-  List<dynamic> showCaseImages = <dynamic>[
-    'assets/images/showCaseImage/ShowCase1.jfif',
-    'assets/images/showCaseImage/ShowCase2.jfif',
-    'assets/images/showCaseImage/ShowCase3.jfif',
-    'assets/images/showCaseImage/ShowCase4.jfif',
-    'assets/images/showCaseImage/ShowCase5.jfif',
-    'assets/images/showCaseImage/ShowCase6.jfif',
-  ].obs();
+  List<dynamic> showCaseImages = List.generate(6, (index) => '').obs();
 
-  pickImage({required int index, required file}) async {
-    // XFile? xfile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    // file = File(xfile!.path);
-    showCaseImages.insert(index, file);
+  displayUploadedImage({required int index, required File file}) async {
+    showCaseImages[index] = file.path;
+    debugPrint("After adding is $showCaseImages");
     update(['showCaseSection']);
   }
+
+
+  updateShowcaseImage(file, index){
+    UpdateProfileAPI().updateShowCase(file, index);
+  }
+
 
 
 

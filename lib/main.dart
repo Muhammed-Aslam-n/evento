@@ -30,7 +30,7 @@ void main() async{
   Get.put(EventoForgotController());
   Get.put(FetchVendorAPI());
   Get.put(LoginController());
-  Get.put(EditProfileDetailsController());
+  Get.put(EditProfile());
   Get.put(EditProfileCredentialsController());
   Get.put(ProfileSetupController());
   Get.put(RegisterController());
@@ -43,26 +43,34 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      builder: () => GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Evento - We build smiles',
-        theme: ThemeData(
-          primaryColor: primaryColor
-        ),
-        home: SplashScreen(),
-        getPages: [
-          GetPage(name: '/', page: () => SplashScreen()),
-          GetPage(name: '/login', page: () => LoginHome()),
-          GetPage(name: '/reg1', page: () => RegisterSectionOne()),
-          GetPage(name: '/holder', page: () => const EventoHolder()),
-          GetPage(name: '/forgot1', page: () => ForgotPasswordSectionOne()),
-          GetPage(name: '/forgot2', page: () => ForgotPasswordOtpSection()),
-          GetPage(name: '/registerVendorOTP', page: () => const RegisterVendorOTPSection()),
-          GetPage(name: '/profileSetup', page: () => SetupProfile()),
-        ],
-      ),
-      designSize: const Size(375, 812),
+    return Builder(
+      builder: (context) {
+        return ScreenUtilInit(
+          builder: () => GetMaterialApp(
+            builder: (context,widget){
+              ScreenUtil.setContext(context);
+              return MediaQuery(data: MediaQuery.of(context), child: widget!);
+            },
+            debugShowCheckedModeBanner: false,
+            title: 'Evento - We build smiles',
+            theme: ThemeData(
+              primaryColor: primaryColor
+            ),
+            home: SplashScreen(),
+            getPages: [
+              GetPage(name: '/', page: () => SplashScreen()),
+              GetPage(name: '/login', page: () => LoginHome()),
+              GetPage(name: '/reg1', page: () => RegisterSectionOne()),
+              GetPage(name: '/holder', page: () => const EventoHolder()),
+              GetPage(name: '/forgot1', page: () => ForgotPasswordSectionOne()),
+              GetPage(name: '/forgot2', page: () => ForgotPasswordOtpSection()),
+              GetPage(name: '/registerVendorOTP', page: () => const RegisterVendorOTPSection()),
+              GetPage(name: '/profileSetup', page: () => SetupProfile()),
+            ],
+          ),
+          designSize: const Size(375, 812),
+        );
+      }
     );
   }
 }

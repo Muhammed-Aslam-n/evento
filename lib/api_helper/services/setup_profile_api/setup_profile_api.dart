@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:evento/api_helper/models/profile_setup_model.dart';
-import 'package:evento/api_helper/services/home/home_api_service.dart';
+import 'package:evento/api_helper/services/profile/show_profile_api.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/home_controller/home_controller.dart';
-import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
+import 'package:evento/controller/profile/editProfileDetailsController.dart';
+import 'package:evento/controller/profile/showProfileDetailsController.dart';
 import 'package:evento/widgets/snackbar_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -43,6 +44,7 @@ class SetupProfileAPI {
             "pincode": vendorProfileSetupModel.pincode,
             "subscription_type": vendorProfileSetupModel.subscriptionType,
             "subscription_amount": vendorProfileSetupModel.subscriptionAmount,
+            "description":vendorProfileSetupModel.description,
             "profile_picture": await MultipartFile.fromFile(
               filePath,
               filename: fileName,
@@ -58,9 +60,12 @@ class SetupProfileAPI {
 
         if (setupProfileResponse.data['error'] == null) {
           commonSnackBar(title: "Setup", message: "Success");
-          await secureStorage.write(key: didUserLoggedKey, value: loggedStatus).then((value) => HomeControllerAPI().saveVendorProfileDetails().then((value) => Get.to(() => const EventoHolder())));
-          debugPrint(
-              "The Response AFTER SETTING PROFILE PICTURE IS  $setupProfileResponse");
+          await secureStorage.write(key: didUserLoggedKey, value: loggedStatus);
+          await HomeController.homeController.onInit();
+          await ShowProfilesDetailsController.showProfilesDetailsController.checkLogStatus();
+          await EditProfile.editProfile.checkLogStatus();
+          Get.offNamedUntil('/holder', (route) => false);
+
         } else {
           commonSnackBar(
               title: "Setup",

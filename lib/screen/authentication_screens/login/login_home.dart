@@ -208,7 +208,7 @@ class LoginHome extends StatelessWidget {
   }
 
   void navigateToSignup(BuildContext context) {
-    Get.to(() => RegisterSectionOne());
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterSectionOne()));
     FocusScope.of(context).unfocus();
   }
 }

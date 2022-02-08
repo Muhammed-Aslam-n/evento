@@ -15,8 +15,9 @@ const checkVendorSubscribedURL = "http://54.146.246.128/api/vendor/check/";
 const vendorProfileSetupURL = "http://54.146.246.128/api/vendor/register/";
 
 const vendorHomeProfileURL = "http://54.146.246.128/api/vendor/home/";
+const vendorWholeProfileFetchURL = "http://54.146.246.128/api/vendor/profile/";
 const vendorWholeProfileUpdateURL = "http://54.146.246.128/api/vendor/update/";
-
+const vendorShowCaseUpdateURL = "http://54.146.246.128/api/vendor/addImage/";
 
 const accesstokenStorageKey = "EventoAccessToken";
 const refreshTokenStorageKey = "EventoRegreshToken";
@@ -26,7 +27,7 @@ const logoutStatus = "UserLoggedOUT";
 const registeredStatus = "UserRegistered";
 const resendOTPhoneNumberKey = "ResendOTPNumber";
 
-
+const vendorPasswordUpdateURL = "http://54.146.246.128/api/updatepassword/";
 
 
 

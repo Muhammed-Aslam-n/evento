@@ -20,11 +20,8 @@ import '../../operations/edit_available_slots.dart';
 
 class EventoHome extends StatelessWidget {
   const EventoHome({Key? key}) : super(key: key);
-  static HomeController basicProfController = HomeController.homeController;
-
   @override
   Widget build(BuildContext context) {
-    basicProfController.showVendorDetails();
     return BackdropScaffold(
      headerHeight: 300,
       appBar: BackdropAppBar(
@@ -126,9 +123,8 @@ class EventoHome extends StatelessWidget {
                 height: 20.h,
               ),
               TextButton(
-                onPressed: () async {
+                onPressed: () async{
                   await LoginApiService().logoutVendor();
-                  debugPrint("Logging Out...");
                 },
                 child: const CommonText(
                   text: "Logout",
@@ -154,31 +150,34 @@ class EventoHome extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.center,
-                child: Container(
-                  height: 85.h,
-                  width: 326.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: const Color(0xFFEDEDED),
-                  ),
-                  child: GetBuilder<HomeController>(
-                    builder: (controller) {
-                      return ListTile(
-                        title: const CommonText(
-                          text: "Hello",
-                          color: Color(0xFFC1C1B7),
-                          weight: FontWeight.w400,
-                        ),
-                        subtitle: CommonText(
-                          text: controller.vendorName,
-                          weight: FontWeight.w400,
-                        ),
-                        trailing: CommonProfileDisplayWidget(
-                          url: controller.vendorProfileURL,
-                        ),
-                      );
-                    }
-                  ),
+                child: GetBuilder<HomeController>(
+                    id: "k",
+                    builder: (homeController) {
+                      return Container(
+                      height: 85.h,
+                      width: 326.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        color: const Color(0xFFEDEDED),
+                      ),
+                      child:
+                            ListTile(
+                            title: const CommonText(
+                              text: "Hello",
+                              color: Color(0xFFC1C1B7),
+                              weight: FontWeight.w400,
+                            ),
+                            subtitle: CommonText(
+                              text: homeController.vendorName,
+                              weight: FontWeight.w400,
+                            ),
+                            trailing: CommonProfileDisplayWidget(
+                              url: homeController.vendorProfileURL,
+                            ),
+
+                      )
+                    );
+                  }
                 ),
               ),
               SizedBox(

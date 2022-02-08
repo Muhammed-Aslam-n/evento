@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/constants/constants.dart';
-import 'package:evento/controller/getx_controller.dart';
 import 'package:evento/controller/profile/showProfileDetailsController.dart';
 import 'package:evento/screen/screen_main/home/showcase_images/utils.dart';
 import 'package:evento/widgets/hovering_utility_widget.dart';
@@ -17,7 +16,6 @@ class DetailsProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ShowProfilesDetailsController.showProfilesDetailsController.fetchVendorDetails();
     return Scaffold(
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -54,35 +52,35 @@ class DetailsProfile extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              GetBuilder<ShowProfilesDetailsController>(
-                  builder: (controller){
-                  return ProfileDetailCardWidget(
-                    headText: "Address",
-                    widgetItems: [
-                      CommonText(
-                        text: "${controller.vendorPlace} ,",
-                      ),
-                      CommonText(
-                        text: "${controller.vendorCity}",
-                      ),
-                      Row(
-                        children: [
-                          CommonText(
-                            text: "${controller.vendorState}",
-                          ),
-                          SizedBox(width: 10.w,),
-                          CommonText(
-                            text: "${controller.vendorPincode}",
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                    ],
-                  );
-                }
-              ),
+              GetBuilder<ShowProfilesDetailsController>(builder: (controller) {
+                return ProfileDetailCardWidget(
+                  headText: "Address",
+                  widgetItems: [
+                    CommonText(
+                      text: "${controller.vendorPlace} ,",
+                    ),
+                    CommonText(
+                      text: "${controller.vendorCity}",
+                    ),
+                    Row(
+                      children: [
+                        CommonText(
+                          text: "${controller.vendorState}",
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        CommonText(
+                          text: "${controller.vendorPincode}",
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                  ],
+                );
+              }),
             ],
           ),
         ),
@@ -91,7 +89,8 @@ class DetailsProfile extends StatelessWidget {
   }
 
   buildShowCaseGrid() {
-    final controller = ShowProfilesDetailsController.showProfilesDetailsController;
+    final controller =
+        ShowProfilesDetailsController.showProfilesDetailsController;
     return GridView.builder(
       shrinkWrap: true,
       physics: const ScrollPhysics(),
@@ -114,18 +113,22 @@ class DetailsProfile extends StatelessWidget {
                 child: GetBuilder<ShowProfilesDetailsController>(
                   id: 'showCaseSection',
                   builder: (controller) {
+                    // debugPrint("Array value is ${controller.showCaseImages}");
+                    var str = controller.showCaseImages[index].toString();
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: controller.showCaseImages[index].runtimeType
-                                  .toString() ==
-                              'String'
-                          ? Image.asset(
+                      child: str.contains("cache") || str == ''
+                          ? str.contains("cache")==true
+                              ?
+                              Image.file(
+                                  File(controller.showCaseImages[index]),fit: BoxFit.fitHeight,height: 160,):Image.asset(
+                        "assets/images/defaultShowcaseImage.png",height: 160,
+                        fit: BoxFit.fitHeight,
+                      )
+                          : Image.network(
                               controller.showCaseImages[index],
-                              fit: BoxFit.fill,
-                            )
-                          : Image.file(
-                              controller.showCaseImages[index],
-                              fit: BoxFit.fill,
+                              fit: BoxFit.fitHeight,
+                              height: 160,
                             ),
                     );
                   },
@@ -156,41 +159,46 @@ class DetailsProfile extends StatelessWidget {
 
   showImagePickingPlatforms({index}) {
     return Get.defaultDialog(
-      title: "Pick image from...",
-      contentPadding: const EdgeInsets.all(65),
-      titleStyle: const TextStyle(color: primaryTextColor),
+      title: "Select Image",
+      titleStyle: const TextStyle(
+        color: primaryTextColor,
+      ),
       barrierDismissible: true,
-      titlePadding: const EdgeInsets.all(6),
+      titlePadding: const EdgeInsets.only(top: 40),
       content: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Row(
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  Get.back();
-                  pickImageFromPlatform(isGallery: true, index: index);
-                },
-                child: Image.asset(
-                  "assets/images/platform/galleryPlatform.png",
+        padding: const EdgeInsets.only(top: 20),
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                    pickImageFromPlatform(isGallery: true, index: index);
+                  },
+                  child: Image.asset(
+                    "assets/images/platform/galleryPlatform.png",
+                    height: 60,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 5.0.w,
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  Get.back();
-                  pickImageFromPlatform(isGallery: false, index: index);
-                },
-                child: Image.asset(
-                  "assets/images/platform/cameraPlatform.png",
+              SizedBox(
+                width: 5.0.w,
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                    pickImageFromPlatform(isGallery: false, index: index);
+                  },
+                  child: Image.asset(
+                    "assets/images/platform/cameraPlatform.png",
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -200,7 +208,17 @@ class DetailsProfile extends StatelessWidget {
     final file =
         await Utils.pickMedia(isGallery: isGallery, cropImage: cropSquareImage);
     if (file == null) return;
-    ShowProfilesDetailsController.showProfilesDetailsController.pickImage(index: index, file: file);
+    ShowProfilesDetailsController.showProfilesDetailsController
+        .updateShowcaseImage(file, index);
+    ShowProfilesDetailsController.showProfilesDetailsController
+        .displayUploadedImage(index: index, file: file);
+    debugPrint("The file to  check structure is ${file.path}");
+    var str = file.path.toString();
+    if(str.contains("cache")){
+      debugPrint("\n-----------------------Contains-------------------------");
+    }else{
+      debugPrint("ILLA SAAR NJAN ITTITTILLA SIR");
+    }
   }
 
   Future<File?> cropSquareImage(File imageFile) async {
@@ -212,7 +230,8 @@ class DetailsProfile extends StatelessWidget {
   }
 
   showEnlargedImage(int index) {
-    final controller = ShowProfilesDetailsController.showProfilesDetailsController;
+    final controller =
+        ShowProfilesDetailsController.showProfilesDetailsController;
     return Get.dialog(
       GestureDetector(
         onTap: () {
@@ -223,16 +242,23 @@ class DetailsProfile extends StatelessWidget {
           height: 150,
           width: 100,
           decoration: BoxDecoration(color: Colors.grey.shade400),
-          child: controller.showCaseImages[index].runtimeType
-                      .toString() ==
-                  'String'
-              ? Image.asset(
+          child: controller.showCaseImages[index] == ''
+              ? controller.showCaseImages[index].runtimeType.toString() !=
+                      '_File'
+                  ? Image.asset(
+                      "assets/images/defaultShowcaseImage.png",
+                      fit: BoxFit.fitWidth,
+                    )
+                  : Image.file(
+                      File(
+                        controller.showCaseImages[index],
+                      ),
+                      fit: BoxFit.fitWidth,
+                    )
+              : Image.network(
                   controller.showCaseImages[index],
-                  fit: BoxFit.contain,
-                )
-              : Image.file(
-                  controller.showCaseImages[index],
-                  fit: BoxFit.contain,
+                  fit: BoxFit.fitWidth,
+                  height: 160,
                 ),
         ),
       ),

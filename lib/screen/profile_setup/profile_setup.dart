@@ -276,9 +276,10 @@ class SetupProfile extends StatelessWidget {
                               ),
                               margin: EdgeInsets.only(top: 10.h, right: 10),
                               padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                              child: const TextField(
+                              child: TextFormField(
                                 maxLines: 5,
-                                decoration: InputDecoration.collapsed(
+                                controller: pSetupController.descriptionController,
+                                decoration: const InputDecoration.collapsed(
                                     hintText: "About you",
                                     border: InputBorder.none),
                               ),

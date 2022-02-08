@@ -14,6 +14,7 @@ class ProfileSetupController extends GetxController{
   TextEditingController cityController = TextEditingController(text: "Atholi").obs();
   TextEditingController zipCodeController = TextEditingController(text: "673315").obs();
   TextEditingController userStateController = TextEditingController(text: "Kerala").obs();
+  TextEditingController descriptionController = TextEditingController(text: "HIIIIII ALLL I AM SUPER STAAAR......").obs();
 
   File file = File('');
   getVendorProfilePicture() async {
@@ -54,6 +55,7 @@ class ProfileSetupController extends GetxController{
       pincode: zipCodeController.text,
       place: placeController.text,
       state: userStateController.text,
+      description: descriptionController.text,
       subscriptionType: planDetails[0],
       subscriptionAmount: planDetails[1],
     );

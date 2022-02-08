@@ -7,7 +7,7 @@ import 'package:evento/screen/authentication_screens/login/login_home.dart';
 import 'package:evento/screen/screen_main/chat/evento_chat.dart';
 import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
 import 'package:evento/screen/screen_main/home/home_pages/evento_home.dart';
-import 'package:evento/screen/screen_main/profile/evento_profile.dart';
+import 'package:evento/screen/screen_main/profile/evento_profiles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,9 +24,9 @@ class EventoController extends GetxController {
 
   @override
   void onInit() async {
-    await redirectToHomeOrLoginPage();
     prefs = await _prefs;
     checkAppLaunched();
+    await redirectToHomeOrLoginPage();
     super.onInit();
   }
 
@@ -47,7 +47,7 @@ class EventoController extends GetxController {
   checkAppLaunched() async {
     isAppLaunched = prefs.getBool(sharedPrefKey);
     debugPrint(
-        "value from SharedPreference is ${isAppLaunched.toString()} You may be set clear() before this function poyi ath sheriyaakk");
+        "value from SharedPreference is ${isAppLaunched.toString()}");
   }
 
   Widget? redirectingPage;

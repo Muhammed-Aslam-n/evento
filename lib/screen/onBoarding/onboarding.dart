@@ -59,7 +59,7 @@ class OnBoarding extends StatelessWidget {
               child: IconButton(
                 onPressed: () {
                   EventoController.eventoController.setAppLaunched();
-                  Get.offNamed('login');
+                  Get.off(LoginHome());
                 },
                 icon: const Icon(
                   Icons.keyboard_arrow_right,

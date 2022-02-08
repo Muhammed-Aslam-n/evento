@@ -1,9 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:evento/api_helper/models/login.dart';
-import 'package:evento/api_helper/services/home/home_api_service.dart';
-import 'package:evento/api_helper/services/register/register_vendor.dart';
 import 'package:evento/constants/colors.dart';
 import 'package:evento/controller/authorization/loginController.dart';
+import 'package:evento/controller/home_controller/home_controller.dart';
+import 'package:evento/controller/profile/editProfileDetailsController.dart';
+import 'package:evento/controller/profile/showProfileDetailsController.dart';
+import 'package:evento/screen/authentication_screens/forgot_password/register_otp_section.dart';
+import 'package:evento/screen/authentication_screens/login/login_home.dart';
+import 'package:evento/screen/profile_setup/profile_setup.dart';
+import 'package:evento/screen/screen_main/holder/evento_pageholder.dart';
 import 'package:evento/widgets/snackbar_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -36,7 +41,7 @@ class LoginApiService {
         await secureStorage.write(key: didUserLoggedKey, value: logoutStatus);
 
         if(response.data['is_verified'] == false){
-          Get.offNamedUntil('/forgot2', (route) => false);
+          Get.offUntil(MaterialPageRoute(builder: (BuildContext context)=>const RegisterVendorOTPSection()), (route) => false);
         }else{
           checkIfVendorSubscribed();
         }
@@ -97,13 +102,18 @@ class LoginApiService {
       debugPrint(
           "Status code of the Response of subscriber or not fn is  ${isSubsrbdResponse.statusCode}");
       if (isSubsrbdResponse.statusCode == 200) {
+
         if (isSubsrbdResponse.data['error'] != null) {
-          Get.offNamedUntil('/profileSetup', (route) => false);
+          Get.offUntil(MaterialPageRoute(builder: (BuildContext context)=>SetupProfile()), (route) => false);
         } else {
-          debugPrint('Function to saveUSER DETAILS CALLED');
-          await HomeControllerAPI().saveVendorProfileDetails();
+
+          debugPrint('Function to Show UserData');
           await secureStorage.write(key: didUserLoggedKey, value: loggedStatus);
-          Get.offNamedUntil('/holder', (route) => false);
+          await HomeController.homeController.checkLogStatus();
+          await ShowProfilesDetailsController.showProfilesDetailsController.checkLogStatus();
+          await EditProfile.editProfile.checkLogStatus();
+          Get.offUntil(MaterialPageRoute(builder: (BuildContext context)=>const EventoHolder()), (route) => false);
+
         }
       } else {
         commonSnackBar(title: "Authentication", message: "Unknown Response...");
@@ -133,7 +143,7 @@ class LoginApiService {
     await secureStorage.deleteAll();
     await secureStorage
         .write(key: didUserLoggedKey, value: logoutStatus)
-        .then((value) => Get.offNamed('login'));
+        .then((value) => Get.offUntil(MaterialPageRoute(builder: (BuildContext context)=>LoginHome()), (route) => false));
   }
 
 
